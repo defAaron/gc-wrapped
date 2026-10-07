@@ -23,13 +23,26 @@ How we turn parsed chat messages into **15–20 roasty friend awards**, mixing *
 
 **Moderation hooks (MVP):** keyword blocklist on exemplar quotes; suppress awards if thread contains crisis keywords; human review queue if user reports.
 
+### Roast dial (user setting)
+
+Set once per session before analysis:
+
+| Level | Jev + templates | Example line tone |
+|-------|-----------------|-------------------|
+| **gentle** | Softer `instructions`; gentle template pool | “Alex sends the most messages—we appreciate the commitment.” |
+| **medium** | Default | “Alex treats the chat like a group project they’re carrying alone.” |
+| **spicy** | Edgier templates; still blocklisted topics | “Alex’s notifications could be classified as a natural disaster.” |
+
+Implementation: `meta.roast_level` in Jev state + `roast_copy_variant` `choice` where needed (`gentle` \| `medium` \| `spicy`).
+
 ---
 
 ## Jev integration (facts from docs)
 
 | Topic | Detail |
 |-------|--------|
-| **Endpoint** | `POST https://jevtypesafeai.com/api/v1/decide` (hosted) or `POST https://api.typesafe.ai/v1/systemone` (official) |
+| **Endpoint (production)** | `POST https://api.typesafe.ai/v1/systemone` (TypeSafe direct, pinned model) |
+| **Endpoint (dev optional)** | `POST https://jevtypesafeai.com/api/v1/decide` (hosted gateway) |
 | **Primitives** | `choice` (≤255 options), `score` (ordered scale), `noul` (0–1 probability) |
 | **Context** | ~**64k tokens** state + all questions; ~**32k** state + longest single question; overflow → `max_tokens_exceeded` (no silent truncate) |
 | **Output** | Typed JSON per question; **no generated prose** |
@@ -153,7 +166,7 @@ Store rolling **exemplar lists** (max 5 per category per member): shortest/longe
 
 1. If tied on primary metric → secondary metric (e.g. `msg_count` tie → higher `word_count`).
 2. If still tied → **earliest** `memberId` lexicographic (deterministic) **unless** Jev award → re-run with narrowed `choice` criteria (two-member only).
-3. **Winner diversity:** after all awards assigned, if one member holds **>4** awards, reassign lowest-confidence Jev awards to runner-up (see confidence below).
+3. **Winner diversity (confirmed):** after all awards assigned, if one member holds **>4** awards, reassign lowest-confidence Jev awards to runner-up until ≤4 (deterministic awards reassigned by lowest margin on primary metric).
 
 ---
 
@@ -469,8 +482,8 @@ Magic Hour script generation uses this ordered list (see `04-ceremony-generation
 |---|------|
 | 1 | **Assumption:** WhatsApp reactions are not available in standard txt export—`hype_person` leans on Telegram/Discord/Messenger where reactions exist. |
 | 2 | **Assumption:** “Funniest” is Jev-judged on exemplars, not embedding clustering. |
-| 3 | **Open:** Max awards per person (**4**?) before reassignment—tune in beta. |
-| 4 | **Open:** User-facing toggle for **spicy** vs **gentle** roasts (maps to Jev `choice` criteria). |
+| 3 | **Confirmed:** Max **4** awards per person before reassignment. |
+| 4 | **Confirmed:** Roast dial **gentle / medium / spicy** on upload flow. |
 | 5 | **Open:** Include **runner-up** on share card or spoil surprise? |
 | 6 | **Risk:** Jev `instructions` are not shown to users—need internal audit log, not PII in logs. |
 | 7 | **Risk:** TypeSafe **telemetry** may process derived metadata even when Input isn’t used for training—enterprise ZDR for scale? |
