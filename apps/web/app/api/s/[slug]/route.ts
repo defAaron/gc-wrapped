@@ -1,7 +1,7 @@
-import { eq, type InferSelectModel } from "drizzle-orm";
+import { desc, eq, type InferSelectModel } from "drizzle-orm";
 import { NextResponse, type NextRequest } from "next/server";
 import { getDb } from "@/src/db";
-import { analyses, awards, members, sessions } from "@/src/db/schema";
+import { analyses, awards, ceremonies, members, sessions } from "@/src/db/schema";
 import { jsonError } from "@/src/security/errors";
 
 export async function GET(_request: NextRequest, context: { params: Promise<{ slug: string }> }) {
@@ -18,10 +18,18 @@ export async function GET(_request: NextRequest, context: { params: Promise<{ sl
   const awardRows = await db.query.awards.findMany({ where: eq(awards.analysisId, analysis.id) });
   const memberById = new Map(memberRows.map((row) => [row.id, row]));
 
+  const ceremonyRows = await db
+    .select()
+    .from(ceremonies)
+    .where(eq(ceremonies.sessionId, session.id))
+    .orderBy(desc(ceremonies.createdAt))
+    .limit(1);
+  const ceremony = ceremonyRows[0];
+
   const payload = {
     groupTitle: session.groupTitle,
     watermark: "Kudos AI",
-    videoUrl: null,
+    videoUrl: ceremony?.status === "complete" ? `/api/s/${slug}/video` : null,
     awards: awardRows.map((row) => {
       const winner = memberById.get(row.winnerMemberId);
       return {

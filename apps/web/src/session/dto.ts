@@ -1,6 +1,6 @@
 import { desc, eq, type InferSelectModel } from "drizzle-orm";
 import { getDb } from "../db";
-import { analyses, awards, members } from "../db/schema";
+import { analyses, awards, ceremonies, members } from "../db/schema";
 
 type MemberRow = InferSelectModel<typeof members>;
 type AwardRow = InferSelectModel<typeof awards>;
@@ -26,6 +26,13 @@ export async function buildOwnerSessionDto(sessionId: string, session: {
   }
   const memberById = new Map(memberRows.map((row) => [row.id, row]));
   const exportById = new Map(memberRows.map((row) => [row.exportKey, row]));
+  const ceremonyRows = await db
+    .select()
+    .from(ceremonies)
+    .where(eq(ceremonies.sessionId, sessionId))
+    .orderBy(desc(ceremonies.createdAt))
+    .limit(1);
+  const ceremony = ceremonyRows[0];
 
   return {
     status: session.status,
@@ -62,7 +69,19 @@ export async function buildOwnerSessionDto(sessionId: string, session: {
           }),
         }
       : null,
-    ceremony: null,
+    ceremony: ceremony
+      ? {
+          ceremonyId: ceremony.id,
+          status:
+            ceremony.status === "complete"
+              ? "complete"
+              : ceremony.status === "failed"
+                ? "failed"
+                : "rendering",
+          fallbackUsed: ceremony.fallbackUsed,
+          videoUrl: ceremony.status === "complete" ? `/api/sessions/${sessionId}/video` : null,
+        }
+      : null,
     _exportById: exportById,
   };
 }

@@ -1,9 +1,15 @@
 import { mkdir, readFile, rm, writeFile } from "node:fs/promises";
 import { dirname, join } from "node:path";
+import { fileURLToPath } from "node:url";
 import type { ObjectStore } from "./object-store";
 
+function objectStoreRoot(rootDir = process.env.OBJECT_STORE_DIR ?? ".data"): string {
+  const repoRoot = join(fileURLToPath(new URL(".", import.meta.url)), "..", "..", "..", "..");
+  return join(repoRoot, rootDir);
+}
+
 export function createLocalObjectStore(rootDir = process.env.OBJECT_STORE_DIR ?? ".data"): ObjectStore {
-  const root = join(process.cwd(), rootDir);
+  const root = objectStoreRoot(rootDir);
 
   async function pathFor(key: string): Promise<string> {
     const safe = key.replaceAll("..", "").replace(/^\/+/, "");
