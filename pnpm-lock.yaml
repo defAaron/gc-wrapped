@@ -50,6 +50,9 @@ importers:
       '@kudos/chat-json':
         specifier: workspace:*
         version: link:../chat-json
+      '@kudos/shared':
+        specifier: workspace:*
+        version: link:../shared
     devDependencies:
       typescript:
         specifier: ^5.8.3

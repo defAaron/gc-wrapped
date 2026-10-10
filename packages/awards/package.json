@@ -11,7 +11,8 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
-    "@kudos/chat-json": "workspace:*"
+    "@kudos/chat-json": "workspace:*",
+    "@kudos/shared": "workspace:*"
   },
   "devDependencies": {
     "typescript": "^5.8.3",
