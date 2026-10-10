@@ -1,0 +1,13 @@
+title = "Kudos AI"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Committed env template with empty assignments only"
+paths = ['''(^|/)\.env\.example$''']
+regexes = ['''^[A-Z0-9_]+=\s*$''']
+
+[[allowlists]]
+description = "Generated local output, not source"
+paths = ['''(^|/)\.next/''', '''(^|/)\.data/''', '''(^|/)dist/''', '''(^|/)coverage/''']

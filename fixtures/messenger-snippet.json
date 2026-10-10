@@ -1,0 +1,23 @@
+{
+  "participants": [{ "name": "Alex" }, { "name": "Sam" }],
+  "messages": [
+    {
+      "sender_name": "Sam",
+      "timestamp_ms": 1710466967000,
+      "content": "later message",
+      "reactions": [
+        { "reaction": "❤️", "actor": "Alex" },
+        { "reaction": "❤️", "actor": "Sam" }
+      ]
+    },
+    {
+      "sender_name": "Alex",
+      "timestamp_ms": 1710466867000,
+      "content": "earlier message"
+    },
+    {
+      "sender_name": "Alex",
+      "timestamp_ms": 1710466868000
+    }
+  ]
+}

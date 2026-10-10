@@ -1,0 +1,23 @@
+{
+  "name": "Apartment 4B",
+  "type": "private_supergroup",
+  "messages": [
+    {
+      "id": 1042,
+      "type": "message",
+      "date_unixtime": "1710466867",
+      "from": "Jordan",
+      "from_id": "user123",
+      "text": ["vote: ", { "type": "bold", "text": "pizza" }, { "type": "custom_emoji", "document_id": "x" }, " or thai"]
+    },
+    {
+      "id": 1043,
+      "type": "service",
+      "date_unixtime": "1710466900",
+      "actor": "Jordan",
+      "actor_id": "user123",
+      "action": "topic_created",
+      "text": ""
+    }
+  ]
+}
