@@ -1,8 +1,11 @@
 import type { Metadata } from "next";
 import { headers } from "next/headers";
 import { AwardCard } from "@/components/award-card";
+import { CeremonyPlayer } from "@/components/ceremony-player";
 import { ShareReportForm } from "@/components/share-report-form";
 import { SiteHeader } from "@/components/site-header";
+import { SiteFooter } from "@/components/site-footer";
+import { suggestedShareCopy } from "@/lib/share-copy";
 
 type PublicShare = {
   groupTitle: string | null;
@@ -48,8 +51,20 @@ export default async function SharePage({ params }: { params: Promise<{ slug: st
       <SiteHeader />
       <main className="mx-auto max-w-5xl px-6 py-10">
         <h1 className="text-3xl font-semibold">{share.groupTitle ?? "Group chat awards"}</h1>
-        <p className="mt-2 text-stone-600">The stage lights are next.</p>
-        <p className="text-xs text-stone-500">{share.watermark}</p>
+        {share.videoUrl ? (
+          <div className="mt-6">
+            <CeremonyPlayer src={share.videoUrl} downloadFileName="kudos-ceremony.mp4" />
+          </div>
+        ) : (
+          <p className="mt-2 text-stone-600">The stage lights are next.</p>
+        )}
+        <p className="mt-2 text-xs text-stone-500">{share.watermark}</p>
+        <p className="mt-4 text-sm text-stone-600">
+          {suggestedShareCopy(
+            share.awards.find((award) => award.awardId === "funniest")?.winner.displayName ?? null,
+            `/s/${slug}`,
+          )}
+        </p>
         <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
           {share.awards.map((award) => (
             <AwardCard
@@ -66,6 +81,7 @@ export default async function SharePage({ params }: { params: Promise<{ slug: st
         </div>
         <ShareReportForm slug={slug} />
       </main>
+      <SiteFooter />
     </div>
   );
 }

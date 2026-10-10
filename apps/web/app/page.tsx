@@ -2,6 +2,7 @@
 
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { SiteFooter } from "@/components/site-footer";
 import { SiteHeader } from "@/components/site-header";
 import { createSession } from "@/lib/api";
 
@@ -33,7 +34,7 @@ export default function HomePage() {
           Upload a JSON export. Get awards. Get a ceremony. Drop it back in the chat.
         </p>
         <p className="text-sm text-stone-500">
-          Free demo · Raw file deleted after analysis · You control sharing.
+          Free demo · Raw file deleted after analysis · You control sharing · Ages 16+ only.
         </p>
         <button
           type="button"
@@ -45,6 +46,7 @@ export default function HomePage() {
         </button>
         {error ? <p className="text-sm text-red-700">{error}</p> : null}
       </main>
+      <SiteFooter />
     </div>
   );
 }

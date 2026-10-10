@@ -16,6 +16,20 @@ export type AwardCard = {
   receipts: string[];
 };
 
+export type CeremonyDto = {
+  ceremonyId: string;
+  status: "rendering" | "complete" | "failed";
+  fallbackUsed: boolean;
+  videoUrl: string | null;
+};
+
+export type CeremonyStatusDto = {
+  status: string;
+  progress: number;
+  stage: string | null;
+  fallbackUsed?: boolean;
+};
+
 export type SessionDto = {
   status: string;
   roastLevel: string;
@@ -23,7 +37,7 @@ export type SessionDto = {
   slug: string;
   members: SessionMember[];
   analysis: { awards: AwardCard[] } | null;
-  ceremony: null;
+  ceremony: CeremonyDto | null;
 };
 
 async function parse<T>(response: Response): Promise<T> {
@@ -43,7 +57,7 @@ async function parse<T>(response: Response): Promise<T> {
   }
   if (!response.ok) {
     const error = body as ApiError;
-    throw new Error(error.code || error.message || "Request failed");
+    throw new Error(error.message || error.code || "Request failed");
   }
   return body as T;
 }
@@ -94,5 +108,18 @@ export async function publishSession(sessionId: string): Promise<{ shareUrl: str
     method: "POST",
     credentials: "include",
   });
+  return parse(response);
+}
+
+export async function startCeremony(sessionId: string): Promise<{ ceremonyId: string; status: string }> {
+  const response = await fetch(`/api/sessions/${sessionId}/ceremony`, {
+    method: "POST",
+    credentials: "include",
+  });
+  return parse(response);
+}
+
+export async function getCeremonyStatus(sessionId: string): Promise<CeremonyStatusDto> {
+  const response = await fetch(`/api/sessions/${sessionId}/status`, { credentials: "include" });
   return parse(response);
 }

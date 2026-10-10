@@ -1,18 +1,21 @@
 "use client";
 
 import Link from "next/link";
-import { useParams } from "next/navigation";
+import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AwardCard } from "@/components/award-card";
 import { SiteHeader } from "@/components/site-header";
-import { analyzeSession, getSession, publishSession, type SessionDto } from "@/lib/api";
+import { SiteFooter } from "@/components/site-footer";
+import { analyzeSession, getSession, publishSession, startCeremony, type SessionDto } from "@/lib/api";
 
 export default function PreviewPage() {
   const { id } = useParams<{ id: string }>();
+  const router = useRouter();
   const [session, setSession] = useState<SessionDto | null>(null);
   const [phase, setPhase] = useState<string | null>("Reading your chaos…");
   const [regenDisabled, setRegenDisabled] = useState(false);
   const [shareUrl, setShareUrl] = useState<string | null>(null);
+  const [ceremonyLoading, setCeremonyLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
@@ -46,7 +49,10 @@ export default function PreviewPage() {
       setSession(await getSession(id));
       setPhase(null);
     } catch (caught) {
-      if (caught instanceof Error && caught.message === "RATE_LIMITED") {
+      if (
+        caught instanceof Error &&
+        (caught.message === "RATE_LIMITED" || caught.message.includes("Too many requests"))
+      ) {
         setRegenDisabled(true);
       }
       setError(caught instanceof Error ? caught.message : "Could not regenerate.");
@@ -57,6 +63,18 @@ export default function PreviewPage() {
   async function publish() {
     const result = await publishSession(id);
     setShareUrl(result.shareUrl);
+  }
+
+  async function generateCeremony() {
+    setCeremonyLoading(true);
+    setError(null);
+    try {
+      await startCeremony(id);
+      router.push(`/session/${id}/ceremony`);
+    } catch (caught) {
+      setError(caught instanceof Error ? caught.message : "Could not start ceremony.");
+      setCeremonyLoading(false);
+    }
   }
 
   return (
@@ -80,10 +98,11 @@ export default function PreviewPage() {
           </button>
           <button
             type="button"
-            disabled
-            className="rounded-full border border-stone-300 px-4 py-2 text-sm opacity-50"
+            disabled={ceremonyLoading || !!phase}
+            onClick={() => void generateCeremony()}
+            className="rounded-full border border-stone-300 px-4 py-2 text-sm disabled:opacity-50"
           >
-            Generate ceremony (Ceremony rendering arrives in the next build.)
+            {ceremonyLoading ? "Starting…" : "Generate ceremony"}
           </button>
           <button
             type="button"
@@ -102,6 +121,7 @@ export default function PreviewPage() {
           </p>
         ) : null}
       </main>
+      <SiteFooter />
     </div>
   );
 }

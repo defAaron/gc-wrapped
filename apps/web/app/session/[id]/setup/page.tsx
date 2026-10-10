@@ -114,8 +114,8 @@ export default function SetupPage() {
           <label className="flex items-start gap-2 text-sm text-stone-700">
             <input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} />
             <span>
-              I confirm I have permission to upload this chat and share awards about these people, or I have
-              removed members who haven&apos;t agreed. I understand Kudos AI will process message text with AI
+              I am 16 or older. I confirm I have permission to upload this chat and share awards about these people, or
+              I have removed members who haven&apos;t agreed. I understand Kudos AI will process message text with AI
               (Jev) and a video provider (Magic Hour).
             </span>
           </label>
