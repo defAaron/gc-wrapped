@@ -8,7 +8,11 @@ import {
   MAX_UPLOAD_BYTES,
   PARSE_TIMEOUT_MS,
 } from "./limits";
-import type { CanonicalChat, CanonicalMessage, ParseFailure, ParseSuccess } from "./types";
+import { adaptDiscord } from "./adapters/discord";
+import { adaptMessenger } from "./adapters/messenger";
+import { adaptTelegram } from "./adapters/telegram";
+import { adaptGeneric, detectFormat } from "./detect";
+import type { CanonicalChat, CanonicalMessage, FormatDetected, ParseFailure, ParseSuccess } from "./types";
 
 const FORBIDDEN_KEYS = new Set(["__proto__", "constructor", "prototype"]);
 
@@ -121,6 +125,36 @@ function cleanText(raw: string, warnings: string[]): string {
   return stripped;
 }
 
+function acceptAdapted(
+  format: FormatDetected,
+  chat: CanonicalChat,
+  started: number,
+): ParseSuccess | ParseFailure {
+  const authors = new Set(chat.messages.map((message) => message.authorId));
+  if (authors.size > MAX_SENDERS) {
+    return failure("MALICIOUS_CONTENT", "Chat has too many senders.");
+  }
+  const warnings = [...chat.warnings];
+  const messages: CanonicalMessage[] = [];
+  for (let index = 0; index < chat.messages.length; index += 1) {
+    if (index % 5000 === 0) assertDeadline(started);
+    const message = chat.messages[index];
+    if (!message) continue;
+    const next: CanonicalMessage = {
+      id: message.id,
+      ts: message.ts,
+      authorId: message.authorId,
+      text: cleanText(message.text, warnings),
+      type: message.type,
+    };
+    if (message.reactions) next.reactions = message.reactions;
+    if (message.replyToId !== undefined) next.replyToId = message.replyToId;
+    if (message.mediaHint === true) next.mediaHint = true;
+    messages.push(next);
+  }
+  return { ok: true, formatDetected: format, chat: { ...chat, messages, warnings } };
+}
+
 function parseValue(source: string): unknown {
   return JSON.parse(source, (key, value: unknown) => {
     if (FORBIDDEN_KEYS.has(key)) {
@@ -157,8 +191,18 @@ export function parseChatJson(bytes: Buffer): ParseSuccess | ParseFailure {
     const parsed = parseValue(source);
     assertDeadline(started);
 
-    if (!parsed || typeof parsed !== "object" || Array.isArray(parsed) || !("kudos_version" in parsed)) {
-      return failure("UNSUPPORTED_SHAPE", "Unrecognized chat JSON.");
+    const format = detectFormat(parsed);
+    if (!format) return failure("UNSUPPORTED_SHAPE", "Unrecognized chat JSON.");
+    if (format !== "kudos_v1") {
+      const adapted =
+        format === "telegram"
+          ? adaptTelegram(parsed)
+          : format === "messenger"
+            ? adaptMessenger(parsed)
+            : format === "discord"
+              ? adaptDiscord(parsed)
+              : adaptGeneric(parsed);
+      return acceptAdapted(format, adapted, started);
     }
 
     const validated = kudosSchema.safeParse(parsed);
