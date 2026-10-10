@@ -8,3 +8,4 @@ dist/
 *.mp4
 *.pem
 coverage/
+*.tsbuildinfo
