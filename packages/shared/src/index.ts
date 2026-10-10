@@ -10,6 +10,25 @@ export type SessionStatus =
   | "complete"
   | "failed";
 
+export const CEREMONY_QUEUE_NAME = "ceremony";
+
+export type CeremonyStatus =
+  | "pending"
+  | "tts_batch"
+  | "mh_clips_running"
+  | "concatenating"
+  | "uploading"
+  | "complete"
+  | "failed";
+
+export const ACTIVE_CEREMONY_STATUSES: CeremonyStatus[] = [
+  "pending",
+  "tts_batch",
+  "mh_clips_running",
+  "concatenating",
+  "uploading",
+];
+
 export type ApiErrorCode =
   | "FILE_TOO_LARGE"
   | "UNSUPPORTED_SHAPE"

@@ -14,7 +14,7 @@ beforeAll(async () => {
 export async function resetDb(): Promise<void> {
   const db = getDb();
   await db.execute(sql`
-    TRUNCATE TABLE share_reports, rate_limit_buckets, awards, analyses, uploads, members, sessions
+    TRUNCATE TABLE share_reports, rate_limit_buckets, ceremony_jobs, ceremonies, awards, analyses, uploads, members, sessions
     RESTART IDENTITY CASCADE
   `);
 }

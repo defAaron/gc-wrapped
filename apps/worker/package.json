@@ -1,0 +1,31 @@
+{
+  "name": "@kudos/worker",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./queue": "./src/queue.ts",
+    "./process": "./src/process.ts"
+  },
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@kudos/awards": "workspace:*",
+    "@kudos/shared": "workspace:*",
+    "bullmq": "^5.58.5",
+    "drizzle-orm": "^0.44.5",
+    "ioredis": "^5.7.0",
+    "pg": "^8.16.3"
+  },
+  "devDependencies": {
+    "@types/node": "^22.18.6",
+    "@types/pg": "^8.15.5",
+    "tsx": "^4.20.5",
+    "typescript": "^5.8.3",
+    "vitest": "^3.2.4"
+  }
+}

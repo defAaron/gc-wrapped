@@ -83,6 +83,27 @@ export async function initTestDb(): Promise<Db> {
       reason text NOT NULL,
       created_at timestamptz NOT NULL DEFAULT now()
     );
+    CREATE TABLE IF NOT EXISTS ceremonies (
+      id uuid PRIMARY KEY,
+      session_id uuid NOT NULL REFERENCES sessions(id) ON DELETE CASCADE,
+      status text NOT NULL DEFAULT 'pending',
+      video_object_key text,
+      duration_sec real,
+      fallback_used boolean NOT NULL DEFAULT false,
+      mh_credits_total integer,
+      created_at timestamptz NOT NULL DEFAULT now(),
+      completed_at timestamptz
+    );
+    CREATE TABLE IF NOT EXISTS ceremony_jobs (
+      id uuid PRIMARY KEY,
+      ceremony_id uuid NOT NULL REFERENCES ceremonies(id) ON DELETE CASCADE,
+      type text NOT NULL,
+      line_id text,
+      external_id text,
+      status text NOT NULL DEFAULT 'pending',
+      attempt integer NOT NULL DEFAULT 0,
+      object_key text
+    );
   `);
   return db;
 }

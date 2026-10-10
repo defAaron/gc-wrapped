@@ -107,3 +107,30 @@ export const shareReports = pgTable("share_reports", {
   reason: text("reason").notNull(),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
 });
+
+export const ceremonies = pgTable("ceremonies", {
+  id: uuidPk(),
+  sessionId: uuid("session_id")
+    .notNull()
+    .references(() => sessions.id, { onDelete: "cascade" }),
+  status: text("status").notNull().default("pending"),
+  videoObjectKey: text("video_object_key"),
+  durationSec: real("duration_sec"),
+  fallbackUsed: boolean("fallback_used").notNull().default(false),
+  mhCreditsTotal: integer("mh_credits_total"),
+  createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
+  completedAt: timestamp("completed_at", { withTimezone: true }),
+});
+
+export const ceremonyJobs = pgTable("ceremony_jobs", {
+  id: uuidPk(),
+  ceremonyId: uuid("ceremony_id")
+    .notNull()
+    .references(() => ceremonies.id, { onDelete: "cascade" }),
+  type: text("type").notNull(),
+  lineId: text("line_id"),
+  externalId: text("external_id"),
+  status: text("status").notNull().default("pending"),
+  attempt: integer("attempt").notNull().default(0),
+  objectKey: text("object_key"),
+});

@@ -13,6 +13,7 @@
     "@kudos/awards": "workspace:*",
     "@kudos/chat-json": "workspace:*",
     "@kudos/shared": "workspace:*",
+    "@kudos/worker": "workspace:*",
     "drizzle-orm": "^0.44.5",
     "next": "^15.5.4",
     "pg": "^8.16.3",
