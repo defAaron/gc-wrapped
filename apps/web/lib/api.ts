@@ -27,10 +27,23 @@ export type SessionDto = {
 };
 
 async function parse<T>(response: Response): Promise<T> {
-  const body = (await response.json()) as T | ApiError;
+  const text = await response.text();
+  if (!text.trim()) {
+    throw new Error(
+      response.status >= 500
+        ? "Server error — is Postgres running? Try: docker compose up -d postgres && pnpm --filter @kudos/web db:push"
+        : "Empty response from server.",
+    );
+  }
+  let body: T | ApiError;
+  try {
+    body = JSON.parse(text) as T | ApiError;
+  } catch {
+    throw new Error("Server returned a non-JSON response. Check the terminal running pnpm dev.");
+  }
   if (!response.ok) {
     const error = body as ApiError;
-    throw new Error(error.message || error.code || "Request failed");
+    throw new Error(error.code || error.message || "Request failed");
   }
   return body as T;
 }
@@ -68,10 +81,6 @@ export async function analyzeSession(sessionId: string, regenerate = false): Pro
     headers: { "content-type": "application/json" },
     body: JSON.stringify(regenerate ? { regenerate: true } : {}),
   });
-  if (response.status === 429) {
-    const error = (await response.json()) as ApiError;
-    throw new Error(error.code);
-  }
   return parse(response);
 }
 

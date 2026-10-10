@@ -9,25 +9,39 @@ import { checkRateLimit } from "@/src/security/rate-limit";
 import { newOwnerToken, setOwnerCookie } from "@/src/security/session-cookie";
 
 export async function POST(request: NextRequest) {
-  if (!assertSameOrigin(request)) return jsonError("UNAUTHORIZED", 403);
-  const limited = await checkRateLimit(request, "session_create", 30, 60 * 60 * 1000);
-  if (!limited.allowed) return jsonError("RATE_LIMITED", 429);
+  try {
+    if (!assertSameOrigin(request)) return jsonError("UNAUTHORIZED", 403);
+    const limited = await checkRateLimit(request, "session_create", 30, 60 * 60 * 1000);
+    if (!limited.allowed) return jsonError("RATE_LIMITED", 429);
 
-  const { token, hash } = newOwnerToken();
-  const slug = randomBytes(16).toString("base64url");
-  const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
-  const db = getDb();
-  const [row] = await db
-    .insert(sessions)
-    .values({ slug, ownerTokenHash: hash, expiresAt })
-    .returning({ id: sessions.id });
+    const { token, hash } = newOwnerToken();
+    const slug = randomBytes(16).toString("base64url");
+    const expiresAt = new Date(Date.now() + 30 * 24 * 60 * 60 * 1000);
+    const db = getDb();
+    const [row] = await db
+      .insert(sessions)
+      .values({ slug, ownerTokenHash: hash, expiresAt })
+      .returning({ id: sessions.id });
 
-  if (!row) return jsonError("INVALID_INPUT", 500);
-  logEvent("session_created", { sessionId: row.id });
-  const response = NextResponse.json({
-    sessionId: row.id,
-    uploadUrl: `/api/sessions/${row.id}/upload`,
-  });
-  setOwnerCookie(response, token);
-  return response;
+    if (!row) return jsonError("INVALID_INPUT", 500);
+    logEvent("session_created", { sessionId: row.id });
+    const response = NextResponse.json({
+      sessionId: row.id,
+      uploadUrl: `/api/sessions/${row.id}/upload`,
+    });
+    setOwnerCookie(response, token);
+    return response;
+  } catch (error) {
+    logEvent("session_create_failed", {
+      reason: error instanceof Error ? error.message : "unknown",
+    });
+    return NextResponse.json(
+      {
+        code: "INVALID_INPUT",
+        message:
+          "Could not create a session. Set DATABASE_URL in .env and run: docker compose up -d postgres && pnpm --filter @kudos/web db:push",
+      },
+      { status: 503 },
+    );
+  }
 }

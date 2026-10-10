@@ -2,6 +2,7 @@ import { drizzle } from "drizzle-orm/node-postgres";
 import pg from "pg";
 import * as schema from "./schema";
 import type { Db } from "./types";
+import { getTestDb } from "./test-db";
 
 let pool: pg.Pool | null = null;
 
@@ -15,10 +16,7 @@ export function getPool(): pg.Pool {
 }
 
 export function getDb(): Db {
-  if (process.env.VITEST === "true") {
-    const { getTestDb } = require("./test-db") as typeof import("./test-db");
-    return getTestDb();
-  }
+  if (process.env.VITEST === "true") return getTestDb();
   return drizzle(getPool(), { schema });
 }
 

@@ -44,11 +44,21 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
   const store = applyMemberState(baseStore, memberRows);
   await db.update(sessions).set({ status: "analyzing" }).where(eq(sessions.id, id));
 
-  const result = await analyzeChat({
-    store,
-    roastLevel: session.roastLevel as RoastLevel,
-    jev: getJevClient(),
-  });
+  let result;
+  try {
+    result = await analyzeChat({
+      store,
+      roastLevel: session.roastLevel as RoastLevel,
+      jev: getJevClient(),
+    });
+  } catch (error) {
+    await db.update(sessions).set({ status: "failed" }).where(eq(sessions.id, id));
+    logEvent("session_analyze_failed", {
+      sessionId: id,
+      reason: error instanceof Error ? error.message : "unknown",
+    });
+    return jsonError("INVALID_INPUT", 500);
+  }
 
   const exportToMember = new Map(memberRows.map((row) => [row.exportKey, row]));
   if (existing) {
