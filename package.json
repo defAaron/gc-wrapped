@@ -1,0 +1,11 @@
+{
+  "name": "kudos-ai",
+  "private": true,
+  "packageManager": "pnpm@9.15.9",
+  "scripts": {
+    "dev": "pnpm --filter @kudos/web dev",
+    "test": "pnpm -r test",
+    "typecheck": "pnpm -r typecheck",
+    "secrets:scan": "gitleaks detect --source . --no-git --redact --config .gitleaks.toml"
+  }
+}
