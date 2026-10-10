@@ -1,0 +1,59 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kudos.ai/schema/kudos-chat-json-v1.json",
+  "title": "Kudos Chat JSON v1",
+  "type": "object",
+  "additionalProperties": true,
+  "required": ["kudos_version", "messages"],
+  "properties": {
+    "kudos_version": { "const": "1" },
+    "chat": {
+      "type": "object",
+      "properties": {
+        "title": { "type": "string" },
+        "platform": {
+          "enum": ["kudos", "telegram", "messenger", "discord", "unknown"]
+        },
+        "exported_at": { "type": ["string", "null"] }
+      }
+    },
+    "members": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "required": ["id", "display_name"],
+        "properties": {
+          "id": { "type": "string" },
+          "display_name": { "type": "string" }
+        }
+      }
+    },
+    "messages": {
+      "type": "array",
+      "maxItems": 500000,
+      "items": {
+        "type": "object",
+        "required": ["id", "ts", "author_id"],
+        "properties": {
+          "id": { "type": "string" },
+          "ts": { "type": "string", "format": "date-time" },
+          "author_id": { "type": "string" },
+          "text": { "type": "string", "maxLength": 10000 },
+          "type": { "enum": ["message", "system"] },
+          "reactions": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["emoji", "count"],
+              "properties": {
+                "emoji": { "type": "string" },
+                "count": { "type": "integer", "minimum": 0 }
+              }
+            }
+          },
+          "reply_to_id": { "type": "string" }
+        }
+      }
+    }
+  }
+}

@@ -7,10 +7,15 @@
     ".": "./src/index.ts"
   },
   "scripts": {
-    "test": "vitest run --passWithNoTests",
+    "test": "vitest run",
     "typecheck": "tsc --noEmit"
   },
+  "dependencies": {
+    "@kudos/shared": "workspace:*",
+    "zod": "^3.25.76"
+  },
   "devDependencies": {
+    "@types/node": "^22.18.6",
     "typescript": "^5.8.3",
     "vitest": "^3.2.4"
   }
