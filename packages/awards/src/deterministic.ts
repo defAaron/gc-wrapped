@@ -74,7 +74,16 @@ export function assignDeterministicAwards(store: FeatureStore): AwardDraft[] {
     );
   }
 
-  const least = pick(members, (member) => member.msgCount, "min", (member) => active(member) && member.msgCount > 0);
+  const tiedMessageCounts = new Set(members.map((member) => member.msgCount)).size === 1;
+  const least = pick(
+    members,
+    (member) => member.msgCount,
+    "min",
+    (member) =>
+      active(member) &&
+      member.msgCount > 0 &&
+      !(tiedMessageCounts && most && member.memberId === most.winner.memberId),
+  );
   if (least) {
     awards.push(draft("least_messages", least, [`${least.winner.msgCount} messages`]));
   }
