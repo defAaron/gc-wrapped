@@ -32,6 +32,20 @@ describe("parseChatJson", () => {
     expect(result.chat.messages.length).toBeGreaterThanOrEqual(800);
   });
 
+  it.each([
+    ["sample-minimal.json", 3, 12],
+    ["sample-trio-quick.json", 3, 76],
+    ["sample-roommates.json", 4, 145],
+    ["sample-study-group.json", 5, 160],
+  ] as const)("parses %s", (name, memberCount, messageCount) => {
+    const result = parseChatJson(fixture(name));
+    expect(result.ok).toBe(true);
+    if (!result.ok) return;
+    expect(result.formatDetected).toBe("kudos_v1");
+    expect(result.chat.members).toHaveLength(memberCount);
+    expect(result.chat.messages).toHaveLength(messageCount);
+  });
+
   it("rejects an oversize body before JSON.parse", () => {
     const parse = vi.spyOn(JSON, "parse");
     const result = parseChatJson(Buffer.alloc(MAX_UPLOAD_BYTES + 1));

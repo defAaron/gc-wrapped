@@ -1,0 +1,108 @@
+{
+  "kudos_version": "1",
+  "chat": {
+    "title": "Coffee Run",
+    "platform": "kudos",
+    "exported_at": "2025-10-01T12:00:00.000Z"
+  },
+  "members": [
+    {
+      "id": "nia",
+      "display_name": "Nia"
+    },
+    {
+      "id": "leo",
+      "display_name": "Leo"
+    },
+    {
+      "id": "zoe",
+      "display_name": "Zoe"
+    }
+  ],
+  "messages": [
+    {
+      "id": "1",
+      "ts": "2024-08-01T14:05:00.000Z",
+      "author_id": "nia",
+      "text": "who is free for coffee",
+      "type": "message"
+    },
+    {
+      "id": "2",
+      "ts": "2024-08-01T14:07:00.000Z",
+      "author_id": "leo",
+      "text": "me in 10",
+      "type": "message"
+    },
+    {
+      "id": "3",
+      "ts": "2024-08-01T14:08:00.000Z",
+      "author_id": "zoe",
+      "text": "same",
+      "type": "message"
+    },
+    {
+      "id": "4",
+      "ts": "2024-08-01T14:12:00.000Z",
+      "author_id": "nia",
+      "text": "meet at the corner cart",
+      "type": "message"
+    },
+    {
+      "id": "5",
+      "ts": "2024-08-01T14:20:00.000Z",
+      "author_id": "leo",
+      "text": "lol I forgot my wallet",
+      "type": "message"
+    },
+    {
+      "id": "6",
+      "ts": "2024-08-01T14:21:00.000Z",
+      "author_id": "leo",
+      "text": "jk I have apple pay",
+      "type": "message"
+    },
+    {
+      "id": "7",
+      "ts": "2024-08-01T22:40:00.000Z",
+      "author_id": "zoe",
+      "text": "still up?",
+      "type": "message"
+    },
+    {
+      "id": "8",
+      "ts": "2024-08-01T23:15:00.000Z",
+      "author_id": "nia",
+      "text": "heading home",
+      "type": "message"
+    },
+    {
+      "id": "9",
+      "ts": "2024-08-02T09:00:00.000Z",
+      "author_id": "zoe",
+      "text": "thanks again yesterday",
+      "type": "message"
+    },
+    {
+      "id": "10",
+      "ts": "2024-08-02T09:04:00.000Z",
+      "author_id": "leo",
+      "text": "anytime",
+      "type": "message"
+    },
+    {
+      "id": "11",
+      "ts": "2024-08-02T12:30:00.000Z",
+      "author_id": "nia",
+      "text": "https://example.com/menu",
+      "type": "message"
+    },
+    {
+      "id": "12",
+      "ts": "2024-08-02T12:45:00.000Z",
+      "author_id": "zoe",
+      "text": "vote: oat or almond",
+      "type": "message"
+    }
+  ]
+}

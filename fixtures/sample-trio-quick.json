@@ -1,0 +1,563 @@
+{
+  "kudos_version": "1",
+  "chat": {
+    "title": "Brunch Committee",
+    "platform": "kudos",
+    "exported_at": "2025-10-01T12:00:00.000Z"
+  },
+  "members": [
+    {
+      "id": "taylor",
+      "display_name": "Taylor"
+    },
+    {
+      "id": "priya",
+      "display_name": "Priya"
+    },
+    {
+      "id": "devon",
+      "display_name": "Devon"
+    }
+  ],
+  "messages": [
+    {
+      "id": "1",
+      "ts": "2024-08-01T11:07:00.000Z",
+      "author_id": "taylor",
+      "text": "brunch this weekend?",
+      "type": "message"
+    },
+    {
+      "id": "2",
+      "ts": "2024-08-01T12:14:00.000Z",
+      "author_id": "priya",
+      "text": "maybe sat",
+      "type": "message"
+    },
+    {
+      "id": "3",
+      "ts": "2024-08-01T13:21:00.000Z",
+      "author_id": "devon",
+      "text": "ok",
+      "type": "message"
+    },
+    {
+      "id": "4",
+      "ts": "2024-08-01T14:28:00.000Z",
+      "author_id": "taylor",
+      "text": "I will find a spot",
+      "type": "message"
+    },
+    {
+      "id": "5",
+      "ts": "2024-08-01T15:35:00.000Z",
+      "author_id": "taylor",
+      "text": "https://example.com/brunch",
+      "type": "message"
+    },
+    {
+      "id": "6",
+      "ts": "2024-08-01T16:42:00.000Z",
+      "author_id": "priya",
+      "text": "lol that place again",
+      "type": "message"
+    },
+    {
+      "id": "7",
+      "ts": "2024-08-01T17:49:00.000Z",
+      "author_id": "taylor",
+      "text": "it hits though",
+      "type": "message"
+    },
+    {
+      "id": "8",
+      "ts": "2024-08-01T18:56:00.000Z",
+      "author_id": "devon",
+      "text": "fine",
+      "type": "message"
+    },
+    {
+      "id": "9",
+      "ts": "2024-08-01T19:03:00.000Z",
+      "author_id": "priya",
+      "text": "I can drive",
+      "type": "message"
+    },
+    {
+      "id": "10",
+      "ts": "2024-08-01T20:10:00.000Z",
+      "author_id": "taylor",
+      "text": "legend",
+      "type": "message"
+    },
+    {
+      "id": "11",
+      "ts": "2024-08-01T21:17:00.000Z",
+      "author_id": "taylor",
+      "text": "also who has my charger",
+      "type": "message"
+    },
+    {
+      "id": "12",
+      "ts": "2024-08-01T10:24:00.000Z",
+      "author_id": "devon",
+      "text": "not me",
+      "type": "message"
+    },
+    {
+      "id": "13",
+      "ts": "2024-08-01T11:31:00.000Z",
+      "author_id": "priya",
+      "text": "check the couch",
+      "type": "message"
+    },
+    {
+      "id": "14",
+      "ts": "2024-08-01T12:38:00.000Z",
+      "author_id": "taylor",
+      "text": "found it",
+      "type": "message"
+    },
+    {
+      "id": "15",
+      "ts": "2024-08-01T13:45:00.000Z",
+      "author_id": "taylor",
+      "text": "never mind",
+      "type": "message"
+    },
+    {
+      "id": "16",
+      "ts": "2024-08-02T14:52:00.000Z",
+      "author_id": "taylor",
+      "text": "brunch this weekend?",
+      "type": "message"
+    },
+    {
+      "id": "17",
+      "ts": "2024-08-02T15:59:00.000Z",
+      "author_id": "priya",
+      "text": "maybe sat",
+      "type": "message"
+    },
+    {
+      "id": "18",
+      "ts": "2024-08-02T16:06:00.000Z",
+      "author_id": "devon",
+      "text": "ok",
+      "type": "message"
+    },
+    {
+      "id": "19",
+      "ts": "2024-08-02T17:13:00.000Z",
+      "author_id": "taylor",
+      "text": "I will find a spot",
+      "type": "message"
+    },
+    {
+      "id": "20",
+      "ts": "2024-08-02T18:20:00.000Z",
+      "author_id": "taylor",
+      "text": "https://example.com/brunch",
+      "type": "message",
+      "reactions": [
+        {
+          "emoji": "😂",
+          "count": 3
+        }
+      ]
+    },
+    {
+      "id": "21",
+      "ts": "2024-08-02T19:27:00.000Z",
+      "author_id": "priya",
+      "text": "lol that place again",
+      "type": "message",
+      "reply_to_id": "20"
+    },
+    {
+      "id": "22",
+      "ts": "2024-08-02T20:34:00.000Z",
+      "author_id": "taylor",
+      "text": "it hits though",
+      "type": "message"
+    },
+    {
+      "id": "23",
+      "ts": "2024-08-02T21:41:00.000Z",
+      "author_id": "devon",
+      "text": "fine",
+      "type": "message"
+    },
+    {
+      "id": "24",
+      "ts": "2024-08-02T10:48:00.000Z",
+      "author_id": "priya",
+      "text": "I can drive",
+      "type": "message"
+    },
+    {
+      "id": "25",
+      "ts": "2024-08-02T11:55:00.000Z",
+      "author_id": "taylor",
+      "text": "legend",
+      "type": "message"
+    },
+    {
+      "id": "26",
+      "ts": "2024-08-02T12:02:00.000Z",
+      "author_id": "taylor",
+      "text": "also who has my charger",
+      "type": "message"
+    },
+    {
+      "id": "27",
+      "ts": "2024-08-02T13:09:00.000Z",
+      "author_id": "devon",
+      "text": "not me",
+      "type": "message"
+    },
+    {
+      "id": "28",
+      "ts": "2024-08-02T14:16:00.000Z",
+      "author_id": "priya",
+      "text": "check the couch",
+      "type": "message"
+    },
+    {
+      "id": "29",
+      "ts": "2024-08-02T15:23:00.000Z",
+      "author_id": "taylor",
+      "text": "found it",
+      "type": "message"
+    },
+    {
+      "id": "30",
+      "ts": "2024-08-02T16:30:00.000Z",
+      "author_id": "taylor",
+      "text": "never mind",
+      "type": "message"
+    },
+    {
+      "id": "31",
+      "ts": "2024-08-03T17:37:00.000Z",
+      "author_id": "taylor",
+      "text": "brunch this weekend?",
+      "type": "message"
+    },
+    {
+      "id": "32",
+      "ts": "2024-08-03T18:44:00.000Z",
+      "author_id": "priya",
+      "text": "maybe sat",
+      "type": "message"
+    },
+    {
+      "id": "33",
+      "ts": "2024-08-03T19:51:00.000Z",
+      "author_id": "devon",
+      "text": "ok",
+      "type": "message"
+    },
+    {
+      "id": "34",
+      "ts": "2024-08-03T20:58:00.000Z",
+      "author_id": "taylor",
+      "text": "I will find a spot",
+      "type": "message"
+    },
+    {
+      "id": "35",
+      "ts": "2024-08-03T21:05:00.000Z",
+      "author_id": "taylor",
+      "text": "https://example.com/brunch",
+      "type": "message"
+    },
+    {
+      "id": "36",
+      "ts": "2024-08-03T10:12:00.000Z",
+      "author_id": "priya",
+      "text": "lol that place again",
+      "type": "message"
+    },
+    {
+      "id": "37",
+      "ts": "2024-08-03T11:19:00.000Z",
+      "author_id": "taylor",
+      "text": "it hits though",
+      "type": "message"
+    },
+    {
+      "id": "38",
+      "ts": "2024-08-03T12:26:00.000Z",
+      "author_id": "devon",
+      "text": "fine",
+      "type": "message"
+    },
+    {
+      "id": "39",
+      "ts": "2024-08-03T13:33:00.000Z",
+      "author_id": "priya",
+      "text": "I can drive",
+      "type": "message"
+    },
+    {
+      "id": "40",
+      "ts": "2024-08-03T14:40:00.000Z",
+      "author_id": "taylor",
+      "text": "legend",
+      "type": "message"
+    },
+    {
+      "id": "41",
+      "ts": "2024-08-03T15:47:00.000Z",
+      "author_id": "taylor",
+      "text": "also who has my charger",
+      "type": "message"
+    },
+    {
+      "id": "42",
+      "ts": "2024-08-03T16:54:00.000Z",
+      "author_id": "devon",
+      "text": "not me",
+      "type": "message"
+    },
+    {
+      "id": "43",
+      "ts": "2024-08-03T17:01:00.000Z",
+      "author_id": "priya",
+      "text": "check the couch",
+      "type": "message"
+    },
+    {
+      "id": "44",
+      "ts": "2024-08-03T18:08:00.000Z",
+      "author_id": "taylor",
+      "text": "found it",
+      "type": "message"
+    },
+    {
+      "id": "45",
+      "ts": "2024-08-03T19:15:00.000Z",
+      "author_id": "taylor",
+      "text": "never mind",
+      "type": "message"
+    },
+    {
+      "id": "46",
+      "ts": "2024-08-04T20:22:00.000Z",
+      "author_id": "taylor",
+      "text": "brunch this weekend?",
+      "type": "message"
+    },
+    {
+      "id": "47",
+      "ts": "2024-08-04T21:29:00.000Z",
+      "author_id": "priya",
+      "text": "maybe sat",
+      "type": "message"
+    },
+    {
+      "id": "48",
+      "ts": "2024-08-04T10:36:00.000Z",
+      "author_id": "devon",
+      "text": "ok",
+      "type": "message"
+    },
+    {
+      "id": "49",
+      "ts": "2024-08-04T11:43:00.000Z",
+      "author_id": "taylor",
+      "text": "I will find a spot",
+      "type": "message"
+    },
+    {
+      "id": "50",
+      "ts": "2024-08-04T12:50:00.000Z",
+      "author_id": "taylor",
+      "text": "https://example.com/brunch",
+      "type": "message"
+    },
+    {
+      "id": "51",
+      "ts": "2024-08-04T13:57:00.000Z",
+      "author_id": "priya",
+      "text": "lol that place again",
+      "type": "message"
+    },
+    {
+      "id": "52",
+      "ts": "2024-08-04T14:04:00.000Z",
+      "author_id": "taylor",
+      "text": "it hits though",
+      "type": "message"
+    },
+    {
+      "id": "53",
+      "ts": "2024-08-04T15:11:00.000Z",
+      "author_id": "devon",
+      "text": "fine",
+      "type": "message"
+    },
+    {
+      "id": "54",
+      "ts": "2024-08-04T16:18:00.000Z",
+      "author_id": "priya",
+      "text": "I can drive",
+      "type": "message"
+    },
+    {
+      "id": "55",
+      "ts": "2024-08-04T17:25:00.000Z",
+      "author_id": "taylor",
+      "text": "legend",
+      "type": "message"
+    },
+    {
+      "id": "56",
+      "ts": "2024-08-04T18:32:00.000Z",
+      "author_id": "taylor",
+      "text": "also who has my charger",
+      "type": "message"
+    },
+    {
+      "id": "57",
+      "ts": "2024-08-04T19:39:00.000Z",
+      "author_id": "devon",
+      "text": "not me",
+      "type": "message"
+    },
+    {
+      "id": "58",
+      "ts": "2024-08-04T20:46:00.000Z",
+      "author_id": "priya",
+      "text": "check the couch",
+      "type": "message"
+    },
+    {
+      "id": "59",
+      "ts": "2024-08-04T21:53:00.000Z",
+      "author_id": "taylor",
+      "text": "found it",
+      "type": "message"
+    },
+    {
+      "id": "60",
+      "ts": "2024-08-04T10:00:00.000Z",
+      "author_id": "taylor",
+      "text": "never mind",
+      "type": "message"
+    },
+    {
+      "id": "61",
+      "ts": "2024-08-05T11:07:00.000Z",
+      "author_id": "taylor",
+      "text": "brunch this weekend?",
+      "type": "message"
+    },
+    {
+      "id": "62",
+      "ts": "2024-08-05T12:14:00.000Z",
+      "author_id": "priya",
+      "text": "maybe sat",
+      "type": "message"
+    },
+    {
+      "id": "63",
+      "ts": "2024-08-05T13:21:00.000Z",
+      "author_id": "devon",
+      "text": "ok",
+      "type": "message"
+    },
+    {
+      "id": "64",
+      "ts": "2024-08-05T14:28:00.000Z",
+      "author_id": "taylor",
+      "text": "I will find a spot",
+      "type": "message"
+    },
+    {
+      "id": "65",
+      "ts": "2024-08-05T15:35:00.000Z",
+      "author_id": "taylor",
+      "text": "https://example.com/brunch",
+      "type": "message"
+    },
+    {
+      "id": "66",
+      "ts": "2024-08-05T16:42:00.000Z",
+      "author_id": "priya",
+      "text": "lol that place again",
+      "type": "message"
+    },
+    {
+      "id": "67",
+      "ts": "2024-08-05T17:49:00.000Z",
+      "author_id": "taylor",
+      "text": "it hits though",
+      "type": "message"
+    },
+    {
+      "id": "68",
+      "ts": "2024-08-05T18:56:00.000Z",
+      "author_id": "devon",
+      "text": "fine",
+      "type": "message"
+    },
+    {
+      "id": "69",
+      "ts": "2024-08-05T19:03:00.000Z",
+      "author_id": "priya",
+      "text": "I can drive",
+      "type": "message"
+    },
+    {
+      "id": "70",
+      "ts": "2024-08-05T20:10:00.000Z",
+      "author_id": "taylor",
+      "text": "legend",
+      "type": "message"
+    },
+    {
+      "id": "71",
+      "ts": "2024-08-05T21:17:00.000Z",
+      "author_id": "taylor",
+      "text": "also who has my charger",
+      "type": "message"
+    },
+    {
+      "id": "72",
+      "ts": "2024-08-05T10:24:00.000Z",
+      "author_id": "devon",
+      "text": "not me",
+      "type": "message"
+    },
+    {
+      "id": "73",
+      "ts": "2024-08-05T11:31:00.000Z",
+      "author_id": "priya",
+      "text": "check the couch",
+      "type": "message"
+    },
+    {
+      "id": "74",
+      "ts": "2024-08-05T12:38:00.000Z",
+      "author_id": "taylor",
+      "text": "found it",
+      "type": "message"
+    },
+    {
+      "id": "75",
+      "ts": "2024-08-05T13:45:00.000Z",
+      "author_id": "taylor",
+      "text": "never mind",
+      "type": "message"
+    },
+    {
+      "id": "76",
+      "ts": "2024-08-06T02:30:00.000Z",
+      "author_id": "priya",
+      "text": "Taylor added a poll",
+      "type": "system"
+    }
+  ]
+}

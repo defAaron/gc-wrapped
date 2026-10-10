@@ -1,0 +1,1158 @@
+{
+  "kudos_version": "1",
+  "chat": {
+    "title": "CS301 Study Hall",
+    "platform": "kudos",
+    "exported_at": "2025-10-01T12:00:00.000Z"
+  },
+  "members": [
+    {
+      "id": "alex",
+      "display_name": "Alex"
+    },
+    {
+      "id": "sam",
+      "display_name": "Sam"
+    },
+    {
+      "id": "jordan",
+      "display_name": "Jordan"
+    },
+    {
+      "id": "riley",
+      "display_name": "Riley"
+    },
+    {
+      "id": "casey",
+      "display_name": "Casey"
+    }
+  ],
+  "messages": [
+    {
+      "id": "s1",
+      "ts": "2024-08-01T09:01:00.000Z",
+      "author_id": "sam",
+      "text": "https://example.com/slides",
+      "type": "message"
+    },
+    {
+      "id": "s2",
+      "ts": "2024-08-01T10:02:00.000Z",
+      "author_id": "jordan",
+      "text": "this problem set is long",
+      "type": "message"
+    },
+    {
+      "id": "s3",
+      "ts": "2024-08-01T11:03:00.000Z",
+      "author_id": "riley",
+      "text": "lol",
+      "type": "message"
+    },
+    {
+      "id": "s4",
+      "ts": "2024-08-01T12:04:00.000Z",
+      "author_id": "casey",
+      "text": "haha ok",
+      "type": "message"
+    },
+    {
+      "id": "s5",
+      "ts": "2024-08-01T13:05:00.000Z",
+      "author_id": "alex",
+      "text": "this problem set is long",
+      "type": "message"
+    },
+    {
+      "id": "s6",
+      "ts": "2024-08-01T14:06:00.000Z",
+      "author_id": "sam",
+      "text": "I am free after 8",
+      "type": "message"
+    },
+    {
+      "id": "s7",
+      "ts": "2024-08-01T15:07:00.000Z",
+      "author_id": "jordan",
+      "text": "quiet hours please",
+      "type": "message"
+    },
+    {
+      "id": "s8",
+      "ts": "2024-08-01T16:08:00.000Z",
+      "author_id": "riley",
+      "text": "sorry",
+      "type": "message"
+    },
+    {
+      "id": "s9",
+      "ts": "2024-08-01T17:09:00.000Z",
+      "author_id": "casey",
+      "text": "who has the notes from tuesday",
+      "type": "message"
+    },
+    {
+      "id": "s10",
+      "ts": "2024-08-01T18:10:00.000Z",
+      "author_id": "alex",
+      "text": "quiet hours please",
+      "type": "message"
+    },
+    {
+      "id": "s11",
+      "ts": "2024-08-01T19:11:00.000Z",
+      "author_id": "sam",
+      "text": "vote: review friday or sunday",
+      "type": "message"
+    },
+    {
+      "id": "s12",
+      "ts": "2024-08-01T20:12:00.000Z",
+      "author_id": "jordan",
+      "text": "library at 3?",
+      "type": "message"
+    },
+    {
+      "id": "s13",
+      "ts": "2024-08-01T21:13:00.000Z",
+      "author_id": "riley",
+      "text": "bringing snacks",
+      "type": "message"
+    },
+    {
+      "id": "s14",
+      "ts": "2024-08-01T08:14:00.000Z",
+      "author_id": "casey",
+      "text": "I forgot the reading",
+      "type": "message"
+    },
+    {
+      "id": "s15",
+      "ts": "2024-08-01T09:15:00.000Z",
+      "author_id": "alex",
+      "text": "library at 3?",
+      "type": "message"
+    },
+    {
+      "id": "s16",
+      "ts": "2024-08-01T10:16:00.000Z",
+      "author_id": "sam",
+      "text": "https://example.com/slides",
+      "type": "message"
+    },
+    {
+      "id": "s17",
+      "ts": "2024-08-01T11:17:00.000Z",
+      "author_id": "jordan",
+      "text": "this problem set is long",
+      "type": "message"
+    },
+    {
+      "id": "s18",
+      "ts": "2024-08-01T12:18:00.000Z",
+      "author_id": "riley",
+      "text": "lol",
+      "type": "message"
+    },
+    {
+      "id": "s19",
+      "ts": "2024-08-01T13:19:00.000Z",
+      "author_id": "casey",
+      "text": "haha ok",
+      "type": "message"
+    },
+    {
+      "id": "s20",
+      "ts": "2024-08-01T14:20:00.000Z",
+      "author_id": "alex",
+      "text": "this problem set is long",
+      "type": "message"
+    },
+    {
+      "id": "s21",
+      "ts": "2024-08-01T15:21:00.000Z",
+      "author_id": "sam",
+      "text": "I am free after 8",
+      "type": "message"
+    },
+    {
+      "id": "s22",
+      "ts": "2024-08-01T16:22:00.000Z",
+      "author_id": "jordan",
+      "text": "quiet hours please",
+      "type": "message"
+    },
+    {
+      "id": "s23",
+      "ts": "2024-08-01T17:23:00.000Z",
+      "author_id": "riley",
+      "text": "lmao wait",
+      "type": "message"
+    },
+    {
+      "id": "s24",
+      "ts": "2024-08-01T18:24:00.000Z",
+      "author_id": "casey",
+      "text": "who has the notes from tuesday",
+      "type": "message"
+    },
+    {
+      "id": "s25",
+      "ts": "2024-08-02T19:25:00.000Z",
+      "author_id": "alex",
+      "text": "quiet hours please",
+      "type": "message"
+    },
+    {
+      "id": "s26",
+      "ts": "2024-08-02T20:26:00.000Z",
+      "author_id": "sam",
+      "text": "vote: review friday or sunday",
+      "type": "message"
+    },
+    {
+      "id": "s27",
+      "ts": "2024-08-02T21:27:00.000Z",
+      "author_id": "jordan",
+      "text": "library at 3?",
+      "type": "message"
+    },
+    {
+      "id": "s28",
+      "ts": "2024-08-02T08:28:00.000Z",
+      "author_id": "riley",
+      "text": "bringing snacks",
+      "type": "message"
+    },
+    {
+      "id": "s29",
+      "ts": "2024-08-02T09:29:00.000Z",
+      "author_id": "casey",
+      "text": "I forgot the reading",
+      "type": "message"
+    },
+    {
+      "id": "s30",
+      "ts": "2024-08-02T10:30:00.000Z",
+      "author_id": "alex",
+      "text": "library at 3?",
+      "type": "message"
+    },
+    {
+      "id": "s31",
+      "ts": "2024-08-02T11:31:00.000Z",
+      "author_id": "sam",
+      "text": "https://example.com/slides",
+      "type": "message"
+    },
+    {
+      "id": "s32",
+      "ts": "2024-08-02T12:32:00.000Z",
+      "author_id": "jordan",
+      "text": "this problem set is long",
+      "type": "message"
+    },
+    {
+      "id": "s33",
+      "ts": "2024-08-02T13:33:00.000Z",
+      "author_id": "riley",
+      "text": "lol",
+      "type": "message"
+    },
+    {
+      "id": "s34",
+      "ts": "2024-08-02T14:34:00.000Z",
+      "author_id": "casey",
+      "text": "haha ok",
+      "type": "message"
+    },
+    {
+      "id": "s35",
+      "ts": "2024-08-02T15:35:00.000Z",
+      "author_id": "alex",
+      "text": "this problem set is long",
+      "type": "message"
+    },
+    {
+      "id": "s36",
+      "ts": "2024-08-02T16:36:00.000Z",
+      "author_id": "sam",
+      "text": "I am free after 8",
+      "type": "message"
+    },
+    {
+      "id": "s37",
+      "ts": "2024-08-02T17:37:00.000Z",
+      "author_id": "jordan",
+      "text": "quiet hours please",
+      "type": "message"
+    },
+    {
+      "id": "s38",
+      "ts": "2024-08-02T18:38:00.000Z",
+      "author_id": "riley",
+      "text": "sorry",
+      "type": "message"
+    },
+    {
+      "id": "s39",
+      "ts": "2024-08-02T19:39:00.000Z",
+      "author_id": "casey",
+      "text": "who has the notes from tuesday",
+      "type": "message"
+    },
+    {
+      "id": "s40",
+      "ts": "2024-08-02T20:40:00.000Z",
+      "author_id": "alex",
+      "text": "quiet hours please",
+      "type": "message"
+    },
+    {
+      "id": "s41",
+      "ts": "2024-08-02T21:41:00.000Z",
+      "author_id": "sam",
+      "text": "vote: review friday or sunday",
+      "type": "message"
+    },
+    {
+      "id": "s42",
+      "ts": "2024-08-02T08:42:00.000Z",
+      "author_id": "jordan",
+      "text": "library at 3?",
+      "type": "message"
+    },
+    {
+      "id": "s43",
+      "ts": "2024-08-02T09:43:00.000Z",
+      "author_id": "riley",
+      "text": "bringing snacks",
+      "type": "message"
+    },
+    {
+      "id": "s44",
+      "ts": "2024-08-02T10:44:00.000Z",
+      "author_id": "casey",
+      "text": "I forgot the reading",
+      "type": "message"
+    },
+    {
+      "id": "s45",
+      "ts": "2024-08-02T11:45:00.000Z",
+      "author_id": "alex",
+      "text": "library at 3?",
+      "type": "message"
+    },
+    {
+      "id": "s46",
+      "ts": "2024-08-02T12:46:00.000Z",
+      "author_id": "sam",
+      "text": "lmao wait",
+      "type": "message"
+    },
+    {
+      "id": "s47",
+      "ts": "2024-08-02T13:47:00.000Z",
+      "author_id": "jordan",
+      "text": "this problem set is long",
+      "type": "message"
+    },
+    {
+      "id": "s48",
+      "ts": "2024-08-02T14:48:00.000Z",
+      "author_id": "riley",
+      "text": "lol",
+      "type": "message"
+    },
+    {
+      "id": "s49",
+      "ts": "2024-08-02T15:49:00.000Z",
+      "author_id": "casey",
+      "text": "haha ok",
+      "type": "message"
+    },
+    {
+      "id": "s50",
+      "ts": "2024-08-03T16:50:00.000Z",
+      "author_id": "alex",
+      "text": "this problem set is long",
+      "type": "message",
+      "reactions": [
+        {
+          "emoji": "💀",
+          "count": 4
+        }
+      ]
+    },
+    {
+      "id": "s51",
+      "ts": "2024-08-03T17:51:00.000Z",
+      "author_id": "sam",
+      "text": "I am free after 8",
+      "type": "message"
+    },
+    {
+      "id": "s52",
+      "ts": "2024-08-03T18:52:00.000Z",
+      "author_id": "jordan",
+      "text": "quiet hours please",
+      "type": "message"
+    },
+    {
+      "id": "s53",
+      "ts": "2024-08-03T19:53:00.000Z",
+      "author_id": "riley",
+      "text": "sorry",
+      "type": "message"
+    },
+    {
+      "id": "s54",
+      "ts": "2024-08-03T20:54:00.000Z",
+      "author_id": "casey",
+      "text": "who has the notes from tuesday",
+      "type": "message"
+    },
+    {
+      "id": "s55",
+      "ts": "2024-08-03T21:55:00.000Z",
+      "author_id": "alex",
+      "text": "quiet hours please",
+      "type": "message"
+    },
+    {
+      "id": "s56",
+      "ts": "2024-08-03T08:56:00.000Z",
+      "author_id": "sam",
+      "text": "vote: review friday or sunday",
+      "type": "message"
+    },
+    {
+      "id": "s57",
+      "ts": "2024-08-03T09:57:00.000Z",
+      "author_id": "jordan",
+      "text": "library at 3?",
+      "type": "message"
+    },
+    {
+      "id": "s58",
+      "ts": "2024-08-03T10:58:00.000Z",
+      "author_id": "riley",
+      "text": "bringing snacks",
+      "type": "message"
+    },
+    {
+      "id": "s59",
+      "ts": "2024-08-03T11:59:00.000Z",
+      "author_id": "casey",
+      "text": "I forgot the reading",
+      "type": "message"
+    },
+    {
+      "id": "s60",
+      "ts": "2024-08-03T12:00:00.000Z",
+      "author_id": "alex",
+      "text": "library at 3?",
+      "type": "message"
+    },
+    {
+      "id": "s61",
+      "ts": "2024-08-03T13:01:00.000Z",
+      "author_id": "sam",
+      "text": "https://example.com/slides",
+      "type": "message"
+    },
+    {
+      "id": "s62",
+      "ts": "2024-08-03T14:02:00.000Z",
+      "author_id": "jordan",
+      "text": "this problem set is long",
+      "type": "message"
+    },
+    {
+      "id": "s63",
+      "ts": "2024-08-03T15:03:00.000Z",
+      "author_id": "riley",
+      "text": "lol",
+      "type": "message"
+    },
+    {
+      "id": "s64",
+      "ts": "2024-08-03T16:04:00.000Z",
+      "author_id": "casey",
+      "text": "haha ok",
+      "type": "message"
+    },
+    {
+      "id": "s65",
+      "ts": "2024-08-03T17:05:00.000Z",
+      "author_id": "alex",
+      "text": "this problem set is long",
+      "type": "message"
+    },
+    {
+      "id": "s66",
+      "ts": "2024-08-03T18:06:00.000Z",
+      "author_id": "sam",
+      "text": "I am free after 8",
+      "type": "message"
+    },
+    {
+      "id": "s67",
+      "ts": "2024-08-03T19:07:00.000Z",
+      "author_id": "jordan",
+      "text": "quiet hours please",
+      "type": "message"
+    },
+    {
+      "id": "s68",
+      "ts": "2024-08-03T20:08:00.000Z",
+      "author_id": "riley",
+      "text": "sorry",
+      "type": "message"
+    },
+    {
+      "id": "s69",
+      "ts": "2024-08-03T21:09:00.000Z",
+      "author_id": "casey",
+      "text": "lmao wait",
+      "type": "message"
+    },
+    {
+      "id": "s70",
+      "ts": "2024-08-03T08:10:00.000Z",
+      "author_id": "alex",
+      "text": "quiet hours please",
+      "type": "message"
+    },
+    {
+      "id": "s71",
+      "ts": "2024-08-03T09:11:00.000Z",
+      "author_id": "sam",
+      "text": "vote: review friday or sunday",
+      "type": "message"
+    },
+    {
+      "id": "s72",
+      "ts": "2024-08-03T10:12:00.000Z",
+      "author_id": "jordan",
+      "text": "library at 3?",
+      "type": "message"
+    },
+    {
+      "id": "s73",
+      "ts": "2024-08-03T11:13:00.000Z",
+      "author_id": "riley",
+      "text": "bringing snacks",
+      "type": "message"
+    },
+    {
+      "id": "s74",
+      "ts": "2024-08-03T12:14:00.000Z",
+      "author_id": "casey",
+      "text": "I forgot the reading",
+      "type": "message"
+    },
+    {
+      "id": "s75",
+      "ts": "2024-08-04T13:15:00.000Z",
+      "author_id": "alex",
+      "text": "library at 3?",
+      "type": "message"
+    },
+    {
+      "id": "s76",
+      "ts": "2024-08-04T14:16:00.000Z",
+      "author_id": "sam",
+      "text": "https://example.com/slides",
+      "type": "message"
+    },
+    {
+      "id": "s77",
+      "ts": "2024-08-04T15:17:00.000Z",
+      "author_id": "jordan",
+      "text": "this problem set is long",
+      "type": "message"
+    },
+    {
+      "id": "s78",
+      "ts": "2024-08-04T16:18:00.000Z",
+      "author_id": "riley",
+      "text": "lol",
+      "type": "message"
+    },
+    {
+      "id": "s79",
+      "ts": "2024-08-04T17:19:00.000Z",
+      "author_id": "casey",
+      "text": "haha ok",
+      "type": "message"
+    },
+    {
+      "id": "s80",
+      "ts": "2024-08-04T18:20:00.000Z",
+      "author_id": "alex",
+      "text": "this problem set is long",
+      "type": "message"
+    },
+    {
+      "id": "s81",
+      "ts": "2024-08-04T19:21:00.000Z",
+      "author_id": "sam",
+      "text": "I am free after 8",
+      "type": "message"
+    },
+    {
+      "id": "s82",
+      "ts": "2024-08-04T20:22:00.000Z",
+      "author_id": "jordan",
+      "text": "quiet hours please",
+      "type": "message"
+    },
+    {
+      "id": "s83",
+      "ts": "2024-08-04T21:23:00.000Z",
+      "author_id": "riley",
+      "text": "sorry",
+      "type": "message"
+    },
+    {
+      "id": "s84",
+      "ts": "2024-08-04T08:24:00.000Z",
+      "author_id": "casey",
+      "text": "who has the notes from tuesday",
+      "type": "message"
+    },
+    {
+      "id": "s85",
+      "ts": "2024-08-04T09:25:00.000Z",
+      "author_id": "alex",
+      "text": "quiet hours please",
+      "type": "message"
+    },
+    {
+      "id": "s86",
+      "ts": "2024-08-04T10:26:00.000Z",
+      "author_id": "sam",
+      "text": "vote: review friday or sunday",
+      "type": "message"
+    },
+    {
+      "id": "s87",
+      "ts": "2024-08-04T11:27:00.000Z",
+      "author_id": "jordan",
+      "text": "library at 3?",
+      "type": "message"
+    },
+    {
+      "id": "s88",
+      "ts": "2024-08-04T12:28:00.000Z",
+      "author_id": "riley",
+      "text": "bringing snacks",
+      "type": "message"
+    },
+    {
+      "id": "s89",
+      "ts": "2024-08-04T13:29:00.000Z",
+      "author_id": "casey",
+      "text": "I forgot the reading",
+      "type": "message"
+    },
+    {
+      "id": "s90",
+      "ts": "2024-08-04T14:30:00.000Z",
+      "author_id": "alex",
+      "text": "library at 3?",
+      "type": "message"
+    },
+    {
+      "id": "s91",
+      "ts": "2024-08-04T15:31:00.000Z",
+      "author_id": "sam",
+      "text": "https://example.com/slides",
+      "type": "message"
+    },
+    {
+      "id": "s92",
+      "ts": "2024-08-04T16:32:00.000Z",
+      "author_id": "jordan",
+      "text": "lmao wait",
+      "type": "message"
+    },
+    {
+      "id": "s93",
+      "ts": "2024-08-04T17:33:00.000Z",
+      "author_id": "riley",
+      "text": "lol",
+      "type": "message"
+    },
+    {
+      "id": "s94",
+      "ts": "2024-08-04T18:34:00.000Z",
+      "author_id": "casey",
+      "text": "haha ok",
+      "type": "message"
+    },
+    {
+      "id": "s95",
+      "ts": "2024-08-04T19:35:00.000Z",
+      "author_id": "alex",
+      "text": "this problem set is long",
+      "type": "message"
+    },
+    {
+      "id": "s96",
+      "ts": "2024-08-04T20:36:00.000Z",
+      "author_id": "sam",
+      "text": "I am free after 8",
+      "type": "message"
+    },
+    {
+      "id": "s97",
+      "ts": "2024-08-04T21:37:00.000Z",
+      "author_id": "jordan",
+      "text": "quiet hours please",
+      "type": "message"
+    },
+    {
+      "id": "s98",
+      "ts": "2024-08-04T08:38:00.000Z",
+      "author_id": "riley",
+      "text": "sorry",
+      "type": "message"
+    },
+    {
+      "id": "s99",
+      "ts": "2024-08-04T09:39:00.000Z",
+      "author_id": "casey",
+      "text": "who has the notes from tuesday",
+      "type": "message"
+    },
+    {
+      "id": "s100",
+      "ts": "2024-08-05T10:40:00.000Z",
+      "author_id": "alex",
+      "text": "quiet hours please",
+      "type": "message"
+    },
+    {
+      "id": "s101",
+      "ts": "2024-08-05T11:41:00.000Z",
+      "author_id": "sam",
+      "text": "vote: review friday or sunday",
+      "type": "message"
+    },
+    {
+      "id": "s102",
+      "ts": "2024-08-05T12:42:00.000Z",
+      "author_id": "jordan",
+      "text": "library at 3?",
+      "type": "message"
+    },
+    {
+      "id": "s103",
+      "ts": "2024-08-05T13:43:00.000Z",
+      "author_id": "riley",
+      "text": "bringing snacks",
+      "type": "message"
+    },
+    {
+      "id": "s104",
+      "ts": "2024-08-05T14:44:00.000Z",
+      "author_id": "casey",
+      "text": "I forgot the reading",
+      "type": "message"
+    },
+    {
+      "id": "s105",
+      "ts": "2024-08-05T15:45:00.000Z",
+      "author_id": "alex",
+      "text": "library at 3?",
+      "type": "message"
+    },
+    {
+      "id": "s106",
+      "ts": "2024-08-05T16:46:00.000Z",
+      "author_id": "sam",
+      "text": "https://example.com/slides",
+      "type": "message"
+    },
+    {
+      "id": "s107",
+      "ts": "2024-08-05T17:47:00.000Z",
+      "author_id": "jordan",
+      "text": "this problem set is long",
+      "type": "message"
+    },
+    {
+      "id": "s108",
+      "ts": "2024-08-05T18:48:00.000Z",
+      "author_id": "riley",
+      "text": "lol",
+      "type": "message"
+    },
+    {
+      "id": "s109",
+      "ts": "2024-08-05T19:49:00.000Z",
+      "author_id": "casey",
+      "text": "haha ok",
+      "type": "message"
+    },
+    {
+      "id": "s110",
+      "ts": "2024-08-05T20:50:00.000Z",
+      "author_id": "alex",
+      "text": "this problem set is long",
+      "type": "message"
+    },
+    {
+      "id": "s111",
+      "ts": "2024-08-05T21:51:00.000Z",
+      "author_id": "sam",
+      "text": "I am free after 8",
+      "type": "message"
+    },
+    {
+      "id": "s112",
+      "ts": "2024-08-05T08:52:00.000Z",
+      "author_id": "jordan",
+      "text": "quiet hours please",
+      "type": "message"
+    },
+    {
+      "id": "s113",
+      "ts": "2024-08-05T09:53:00.000Z",
+      "author_id": "riley",
+      "text": "sorry",
+      "type": "message"
+    },
+    {
+      "id": "s114",
+      "ts": "2024-08-05T10:54:00.000Z",
+      "author_id": "casey",
+      "text": "who has the notes from tuesday",
+      "type": "message"
+    },
+    {
+      "id": "s115",
+      "ts": "2024-08-05T11:55:00.000Z",
+      "author_id": "alex",
+      "text": "lmao wait",
+      "type": "message"
+    },
+    {
+      "id": "s116",
+      "ts": "2024-08-05T12:56:00.000Z",
+      "author_id": "sam",
+      "text": "vote: review friday or sunday",
+      "type": "message"
+    },
+    {
+      "id": "s117",
+      "ts": "2024-08-05T13:57:00.000Z",
+      "author_id": "jordan",
+      "text": "library at 3?",
+      "type": "message"
+    },
+    {
+      "id": "s118",
+      "ts": "2024-08-05T14:58:00.000Z",
+      "author_id": "riley",
+      "text": "bringing snacks",
+      "type": "message"
+    },
+    {
+      "id": "s119",
+      "ts": "2024-08-05T15:59:00.000Z",
+      "author_id": "casey",
+      "text": "I forgot the reading",
+      "type": "message"
+    },
+    {
+      "id": "s120",
+      "ts": "2024-08-05T16:00:00.000Z",
+      "author_id": "alex",
+      "text": "library at 3?",
+      "type": "message"
+    },
+    {
+      "id": "s121",
+      "ts": "2024-08-05T17:01:00.000Z",
+      "author_id": "sam",
+      "text": "https://example.com/slides",
+      "type": "message"
+    },
+    {
+      "id": "s122",
+      "ts": "2024-08-05T18:02:00.000Z",
+      "author_id": "jordan",
+      "text": "this problem set is long",
+      "type": "message"
+    },
+    {
+      "id": "s123",
+      "ts": "2024-08-05T19:03:00.000Z",
+      "author_id": "riley",
+      "text": "lol",
+      "type": "message"
+    },
+    {
+      "id": "s124",
+      "ts": "2024-08-05T20:04:00.000Z",
+      "author_id": "casey",
+      "text": "haha ok",
+      "type": "message"
+    },
+    {
+      "id": "s125",
+      "ts": "2024-08-06T21:05:00.000Z",
+      "author_id": "alex",
+      "text": "this problem set is long",
+      "type": "message"
+    },
+    {
+      "id": "s126",
+      "ts": "2024-08-06T08:06:00.000Z",
+      "author_id": "sam",
+      "text": "I am free after 8",
+      "type": "message"
+    },
+    {
+      "id": "s127",
+      "ts": "2024-08-06T09:07:00.000Z",
+      "author_id": "jordan",
+      "text": "quiet hours please",
+      "type": "message"
+    },
+    {
+      "id": "s128",
+      "ts": "2024-08-06T10:08:00.000Z",
+      "author_id": "riley",
+      "text": "sorry",
+      "type": "message"
+    },
+    {
+      "id": "s129",
+      "ts": "2024-08-06T11:09:00.000Z",
+      "author_id": "casey",
+      "text": "who has the notes from tuesday",
+      "type": "message"
+    },
+    {
+      "id": "s130",
+      "ts": "2024-08-06T12:10:00.000Z",
+      "author_id": "alex",
+      "text": "quiet hours please",
+      "type": "message"
+    },
+    {
+      "id": "s131",
+      "ts": "2024-08-06T13:11:00.000Z",
+      "author_id": "sam",
+      "text": "vote: review friday or sunday",
+      "type": "message"
+    },
+    {
+      "id": "s132",
+      "ts": "2024-08-06T14:12:00.000Z",
+      "author_id": "jordan",
+      "text": "library at 3?",
+      "type": "message"
+    },
+    {
+      "id": "s133",
+      "ts": "2024-08-06T15:13:00.000Z",
+      "author_id": "riley",
+      "text": "bringing snacks",
+      "type": "message"
+    },
+    {
+      "id": "s134",
+      "ts": "2024-08-06T16:14:00.000Z",
+      "author_id": "casey",
+      "text": "I forgot the reading",
+      "type": "message"
+    },
+    {
+      "id": "s135",
+      "ts": "2024-08-06T17:15:00.000Z",
+      "author_id": "alex",
+      "text": "library at 3?",
+      "type": "message"
+    },
+    {
+      "id": "s136",
+      "ts": "2024-08-06T18:16:00.000Z",
+      "author_id": "sam",
+      "text": "https://example.com/slides",
+      "type": "message"
+    },
+    {
+      "id": "s137",
+      "ts": "2024-08-06T19:17:00.000Z",
+      "author_id": "jordan",
+      "text": "this problem set is long",
+      "type": "message"
+    },
+    {
+      "id": "s138",
+      "ts": "2024-08-06T20:18:00.000Z",
+      "author_id": "riley",
+      "text": "lmao wait",
+      "type": "message"
+    },
+    {
+      "id": "s139",
+      "ts": "2024-08-06T21:19:00.000Z",
+      "author_id": "casey",
+      "text": "haha ok",
+      "type": "message"
+    },
+    {
+      "id": "s140",
+      "ts": "2024-08-06T08:20:00.000Z",
+      "author_id": "alex",
+      "text": "this problem set is long",
+      "type": "message"
+    },
+    {
+      "id": "s141",
+      "ts": "2024-08-06T09:21:00.000Z",
+      "author_id": "sam",
+      "text": "I am free after 8",
+      "type": "message"
+    },
+    {
+      "id": "s142",
+      "ts": "2024-08-06T10:22:00.000Z",
+      "author_id": "jordan",
+      "text": "quiet hours please",
+      "type": "message"
+    },
+    {
+      "id": "s143",
+      "ts": "2024-08-06T11:23:00.000Z",
+      "author_id": "riley",
+      "text": "sorry",
+      "type": "message"
+    },
+    {
+      "id": "s144",
+      "ts": "2024-08-06T12:24:00.000Z",
+      "author_id": "casey",
+      "text": "who has the notes from tuesday",
+      "type": "message"
+    },
+    {
+      "id": "s145",
+      "ts": "2024-08-06T13:25:00.000Z",
+      "author_id": "alex",
+      "text": "quiet hours please",
+      "type": "message"
+    },
+    {
+      "id": "s146",
+      "ts": "2024-08-06T14:26:00.000Z",
+      "author_id": "sam",
+      "text": "vote: review friday or sunday",
+      "type": "message"
+    },
+    {
+      "id": "s147",
+      "ts": "2024-08-06T15:27:00.000Z",
+      "author_id": "jordan",
+      "text": "library at 3?",
+      "type": "message"
+    },
+    {
+      "id": "s148",
+      "ts": "2024-08-06T16:28:00.000Z",
+      "author_id": "riley",
+      "text": "bringing snacks",
+      "type": "message"
+    },
+    {
+      "id": "s149",
+      "ts": "2024-08-06T17:29:00.000Z",
+      "author_id": "casey",
+      "text": "I forgot the reading",
+      "type": "message"
+    },
+    {
+      "id": "s150",
+      "ts": "2024-08-07T18:30:00.000Z",
+      "author_id": "alex",
+      "text": "library at 3?",
+      "type": "message"
+    },
+    {
+      "id": "s151",
+      "ts": "2024-08-07T19:31:00.000Z",
+      "author_id": "sam",
+      "text": "https://example.com/slides",
+      "type": "message"
+    },
+    {
+      "id": "s152",
+      "ts": "2024-08-07T20:32:00.000Z",
+      "author_id": "jordan",
+      "text": "this problem set is long",
+      "type": "message"
+    },
+    {
+      "id": "s153",
+      "ts": "2024-08-07T21:33:00.000Z",
+      "author_id": "riley",
+      "text": "lol",
+      "type": "message"
+    },
+    {
+      "id": "s154",
+      "ts": "2024-08-07T08:34:00.000Z",
+      "author_id": "casey",
+      "text": "haha ok",
+      "type": "message"
+    },
+    {
+      "id": "s155",
+      "ts": "2024-08-07T09:35:00.000Z",
+      "author_id": "alex",
+      "text": "this problem set is long",
+      "type": "message"
+    },
+    {
+      "id": "s156",
+      "ts": "2024-08-07T10:36:00.000Z",
+      "author_id": "sam",
+      "text": "I am free after 8",
+      "type": "message"
+    },
+    {
+      "id": "s157",
+      "ts": "2024-08-07T11:37:00.000Z",
+      "author_id": "jordan",
+      "text": "quiet hours please",
+      "type": "message"
+    },
+    {
+      "id": "s158",
+      "ts": "2024-08-07T12:38:00.000Z",
+      "author_id": "riley",
+      "text": "sorry",
+      "type": "message"
+    },
+    {
+      "id": "s159",
+      "ts": "2024-08-07T13:39:00.000Z",
+      "author_id": "casey",
+      "text": "who has the notes from tuesday",
+      "type": "message"
+    },
+    {
+      "id": "s160",
+      "ts": "2024-08-07T14:40:00.000Z",
+      "author_id": "alex",
+      "text": "quiet hours please",
+      "type": "message"
+    }
+  ]
+}

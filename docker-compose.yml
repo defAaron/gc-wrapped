@@ -1,0 +1,19 @@
+services:
+  redis:
+    image: redis:7
+    ports:
+      - "6379:6379"
+
+  postgres:
+    image: postgres:16
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: kudos
+      POSTGRES_PASSWORD: kudos
+      POSTGRES_DB: kudos
+    volumes:
+      - kudos_pg:/var/lib/postgresql/data
+
+volumes:
+  kudos_pg:
