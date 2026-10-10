@@ -10,6 +10,7 @@ export type CanonicalMessage = {
   type: "message" | "system";
   reactions?: { emoji: string; count: number }[];
   replyToId?: string;
+  mediaHint?: boolean;
 };
 
 export type CanonicalChat = {
