@@ -1,0 +1,9 @@
+title = "Kudos AI"
+
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Committed env template with empty assignments only"
+paths = ['''(^|/)\.env\.example$''']
+regexes = ['''^[A-Z0-9_]+=\s*$''']
