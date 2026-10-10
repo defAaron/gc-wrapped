@@ -1,0 +1,22 @@
+{
+  "guild": { "id": "1", "name": "House" },
+  "channel": { "id": "2", "name": "general" },
+  "messages": [
+    {
+      "id": "100",
+      "type": "Default",
+      "timestamp": "2024-03-15T03:01:07.000Z",
+      "content": "hello",
+      "author": { "id": "42", "name": "Riley" },
+      "attachments": []
+    },
+    {
+      "id": "101",
+      "type": "Default",
+      "timestamp": "2024-03-15T03:05:00.000Z",
+      "content": "",
+      "author": { "id": "43", "name": "Casey" },
+      "attachments": [{ "url": "https://cdn.example/meme.png", "fileName": "meme.png" }]
+    }
+  ]
+}
