@@ -16,12 +16,18 @@ function windowStart(now: Date, windowMs: number): Date {
   return new Date(ms);
 }
 
+export function isRateLimitDisabled(): boolean {
+  if (process.env.RATE_LIMIT_DISABLED === "1") return true;
+  return process.env.NODE_ENV === "development";
+}
+
 export async function checkRateLimit(
   request: NextRequest,
   bucket: string,
   limit: number,
   windowMs: number,
 ): Promise<{ allowed: boolean }> {
+  if (isRateLimitDisabled()) return { allowed: true };
   const db = getDb();
   const now = new Date();
   const start = windowStart(now, windowMs);

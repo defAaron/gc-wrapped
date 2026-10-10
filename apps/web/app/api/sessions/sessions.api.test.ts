@@ -2,6 +2,7 @@ import { readFileSync } from "node:fs";
 import { join } from "node:path";
 import { NextRequest } from "next/server";
 import { afterEach, describe, expect, it } from "vitest";
+import { MAX_UPLOAD_BYTES } from "@kudos/chat-json";
 import type { JevClient } from "@kudos/awards";
 import { POST as createSession } from "./route";
 import { GET, PATCH } from "./[id]/route";
@@ -140,6 +141,22 @@ describe("session api", () => {
       { params: Promise.resolve({ id }) },
     );
     expect(response.status).toBe(403);
+  });
+
+  it("rejects uploads over 50MB through the HTTP route", async () => {
+    const { id, cookie } = await create();
+    const oversized = Buffer.alloc(MAX_UPLOAD_BYTES + 1, 0x20);
+    const response = await upload(
+      new NextRequest(`http://localhost:3000/api/sessions/${id}/upload`, {
+        method: "POST",
+        headers: withCookie(cookie, { "content-type": "application/json" }),
+        body: oversized,
+      }),
+      { params: Promise.resolve({ id }) },
+    );
+    const body = await response.json();
+    expect(response.status).toBe(400);
+    expect(body.code).toBe("FILE_TOO_LARGE");
   });
 
   it("rejects malicious uploads and analyze without consent", async () => {

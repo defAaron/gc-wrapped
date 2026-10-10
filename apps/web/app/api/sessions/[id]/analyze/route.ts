@@ -7,6 +7,7 @@ import { getJevClient } from "@/src/jev/provider";
 import { getOwnedSession } from "@/src/session/auth";
 import { applyMemberState } from "@/src/session/feature-store";
 import { jsonError } from "@/src/security/errors";
+import { isRateLimitDisabled } from "@/src/security/rate-limit";
 import { assertSameOrigin } from "@/src/security/origin";
 import { logEvent } from "@/src/security/log";
 import type { RoastLevel } from "@kudos/shared";
@@ -26,7 +27,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
     return NextResponse.json({ status: "preview", analysisId: existing.id });
   }
   if (body.regenerate) {
-    if (session.regenerateCount >= 2) return jsonError("RATE_LIMITED", 429);
+    if (!isRateLimitDisabled() && session.regenerateCount >= 2) return jsonError("RATE_LIMITED", 429);
     await db
       .update(sessions)
       .set({ regenerateCount: session.regenerateCount + 1 })
