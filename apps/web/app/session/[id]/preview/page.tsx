@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { AwardCard } from "@/components/award-card";
 import { SiteHeader } from "@/components/site-header";
 import { SiteFooter } from "@/components/site-footer";
-import { analyzeSession, getSession, publishSession, startCeremony, type SessionDto } from "@/lib/api";
+import { analyzeSession, getSession, patchSession, publishSession, startCeremony, type SessionDto } from "@/lib/api";
 
 export default function PreviewPage() {
   const { id } = useParams<{ id: string }>();
@@ -32,7 +32,10 @@ export default function PreviewPage() {
           setPhase(null);
         }
       } catch (caught) {
-        if (!cancelled) setError(caught instanceof Error ? caught.message : "Analysis failed.");
+        if (!cancelled) {
+          setPhase(null);
+          setError(caught instanceof Error ? caught.message : "Analysis failed.");
+        }
       }
     }
     void run();
@@ -104,6 +107,17 @@ export default function PreviewPage() {
           >
             {ceremonyLoading ? "Starting…" : "Generate ceremony"}
           </button>
+          <label className="flex items-center gap-2 text-sm text-stone-700">
+            <input
+              type="checkbox"
+              checked={Boolean(session?.quotesPublic)}
+              onChange={(event) => {
+                const quotesPublic = event.target.checked;
+                void patchSession(id, { quotesPublic }).then((updated) => setSession(updated));
+              }}
+            />
+            Show one receipt quote on the public link
+          </label>
           <button
             type="button"
             onClick={() => void publish()}

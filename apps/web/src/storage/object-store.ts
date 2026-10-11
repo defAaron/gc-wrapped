@@ -1,6 +1,1 @@
-export interface ObjectStore {
-  put(key: string, body: Buffer): Promise<void>;
-  get(key: string): Promise<Buffer | null>;
-  delete(key: string): Promise<void>;
-  deletePrefix(prefix: string): Promise<void>;
-}
+export type { ObjectStore } from "@kudos/storage";

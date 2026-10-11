@@ -1,0 +1,11 @@
+node_modules
+**/.next
+**/.data
+**/.data-test*
+.git
+*.mp4
+.env
+.env.*
+!.env.example
+coverage
+**/*.tsbuildinfo

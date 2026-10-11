@@ -17,6 +17,7 @@ type PatchBody = {
   groupTitle?: string;
   consent?: boolean;
   publishQuotes?: boolean;
+  quotesPublic?: boolean;
   members?: { id: string; displayName?: string; excluded?: boolean }[];
   merge?: [string, string][];
 };
@@ -52,6 +53,9 @@ export async function PATCH(request: NextRequest, context: { params: Promise<{ i
   }
   if (body.publishQuotes !== undefined) {
     await db.update(sessions).set({ publishQuotes: body.publishQuotes }).where(eq(sessions.id, id));
+  }
+  if (body.quotesPublic !== undefined) {
+    await db.update(sessions).set({ quotesPublic: body.quotesPublic }).where(eq(sessions.id, id));
   }
 
   const memberRows: InferSelectModel<typeof members>[] = await db.query.members.findMany({

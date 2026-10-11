@@ -6,7 +6,8 @@
   "exports": {
     ".": "./src/index.ts",
     "./queue": "./src/queue.ts",
-    "./process": "./src/process.ts"
+    "./process": "./src/process.ts",
+    "./concat": "./src/concat.ts"
   },
   "scripts": {
     "dev": "tsx watch src/index.ts",
@@ -16,6 +17,7 @@
   "dependencies": {
     "@kudos/awards": "workspace:*",
     "@kudos/shared": "workspace:*",
+    "@kudos/storage": "workspace:*",
     "bullmq": "^5.58.5",
     "drizzle-orm": "^0.44.5",
     "ioredis": "^5.7.0",

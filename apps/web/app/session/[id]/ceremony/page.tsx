@@ -22,11 +22,25 @@ export default function CeremonyPage() {
   const [error, setError] = useState<string | null>(null);
 
   const refresh = useCallback(async () => {
-    const [loaded, ceremony] = await Promise.all([getSession(id), getCeremonyStatus(id)]);
-    setSession(loaded);
-    setStatus(ceremony);
-    if (ceremony.status === "failed") {
-      setError("Ceremony rendering failed. Try again from preview.");
+    setError(null);
+    try {
+      const loaded = await getSession(id);
+      setSession(loaded);
+      try {
+        const ceremony = await getCeremonyStatus(id);
+        setStatus(ceremony);
+        if (ceremony.status === "failed") {
+          setError("Ceremony rendering failed. Try again from preview.");
+        }
+      } catch {
+        setStatus(null);
+      }
+    } catch {
+      setSession(null);
+      setStatus(null);
+      setError(
+        "We couldn't open this session. Use the same browser where you uploaded the chat, or start again from the home page.",
+      );
     }
   }, [id]);
 
@@ -48,9 +62,14 @@ export default function CeremonyPage() {
     setCopyHint(suggestedShareCopy(funniest ?? null, absolute));
   }
 
-  const rendering = status?.status === "rendering";
-  const complete = status?.status === "complete";
-  const videoSrc = `/api/sessions/${id}/video`;
+  const ceremonyState = session?.ceremony;
+  const rendering =
+    status?.status === "rendering" ||
+    ceremonyState?.status === "rendering" ||
+    (session?.status === "rendering" && ceremonyState?.status !== "complete");
+  const complete = status?.status === "complete" || ceremonyState?.status === "complete";
+  const videoSrc = ceremonyState?.videoUrl ?? `/api/sessions/${id}/video`;
+  const fallbackUsed = status?.fallbackUsed ?? ceremonyState?.fallbackUsed ?? false;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -68,7 +87,7 @@ export default function CeremonyPage() {
           <div className="mt-6 space-y-4">
             <CeremonyPlayer
               src={videoSrc}
-              {...(status?.fallbackUsed ? { fallbackUsed: true } : {})}
+              {...(fallbackUsed ? { fallbackUsed: true } : {})}
               downloadFileName="kudos-ceremony.mp4"
             />
             <button
@@ -81,7 +100,7 @@ export default function CeremonyPage() {
             {copyHint ? <p className="text-sm text-stone-600">{copyHint}</p> : null}
           </div>
         ) : null}
-        {!complete && !rendering && !error ? (
+        {!complete && !rendering && !error && session ? (
           <p className="mt-4 text-sm text-stone-600">
             No ceremony in progress.{" "}
             <button type="button" className="underline" onClick={() => router.push(`/session/${id}/preview`)}>

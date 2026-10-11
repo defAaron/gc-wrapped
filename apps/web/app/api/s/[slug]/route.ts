@@ -32,7 +32,7 @@ export async function GET(_request: NextRequest, context: { params: Promise<{ sl
     videoUrl: ceremony?.status === "complete" ? `/api/s/${slug}/video` : null,
     awards: awardRows.map((row) => {
       const winner = memberById.get(row.winnerMemberId);
-      return {
+      const award = {
         awardId: row.awardId,
         title: row.title,
         winner: { memberId: winner?.id ?? row.winnerMemberId, displayName: winner?.displayName ?? "Unknown" },
@@ -40,12 +40,18 @@ export async function GET(_request: NextRequest, context: { params: Promise<{ sl
         receipts: row.receipts,
         source: row.source,
       };
+      if (session.quotesPublic && row.exemplarQuote) {
+        return { ...award, exemplarQuote: row.exemplarQuote };
+      }
+      return award;
     }),
   };
 
-  const forbidden = ["exemplarQuote", "text", "messages"];
   const json = JSON.stringify(payload);
-  if (forbidden.some((key) => json.includes(`"${key}"`))) {
+  if (!session.quotesPublic && json.includes('"exemplarQuote"')) {
+    return jsonError("INVALID_INPUT", 500);
+  }
+  if (json.includes('"messages"') || json.includes('"text"')) {
     return jsonError("INVALID_INPUT", 500);
   }
   return NextResponse.json(payload);
