@@ -4,7 +4,7 @@ import { getDb } from "@/src/db";
 import { members } from "@/src/db/schema";
 import { sniffImageType } from "@/src/media/sniff-image";
 import { getOwnedSession } from "@/src/session/auth";
-import { createLocalObjectStore } from "@/src/storage/local-disk";
+import { createObjectStore } from "@kudos/storage";
 import { jsonError } from "@/src/security/errors";
 import { assertSameOrigin } from "@/src/security/origin";
 import { logEvent } from "@/src/security/log";
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
 
   const ext = kind === "jpeg" ? "jpg" : "png";
   const key = `sessions/${id}/avatars/${memberId}.${ext}`;
-  const store = createLocalObjectStore();
+  const store = createObjectStore();
   await store.put(key, buffer);
   await db.update(members).set({ avatarObjectKey: key }).where(eq(members.id, memberId));
 

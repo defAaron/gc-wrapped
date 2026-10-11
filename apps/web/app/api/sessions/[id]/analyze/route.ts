@@ -1,13 +1,13 @@
 import { eq, type InferSelectModel } from "drizzle-orm";
 import { NextResponse, type NextRequest } from "next/server";
-import { analyzeChat, type AwardResult, type FeatureStore } from "@kudos/awards";
+import { analyzeChat, JevAuthError, type AwardResult, type FeatureStore } from "@kudos/awards";
 import { getDb } from "@/src/db";
 import { analyses, awards, members, sessions } from "@/src/db/schema";
 import { getJevClient } from "@/src/jev/provider";
 import { getOwnedSession } from "@/src/session/auth";
 import { applyMemberState } from "@/src/session/feature-store";
 import { jsonError } from "@/src/security/errors";
-import { isRateLimitDisabled } from "@/src/security/rate-limit";
+import { checkRateLimit, isRateLimitDisabled } from "@/src/security/rate-limit";
 import { assertSameOrigin } from "@/src/security/origin";
 import { logEvent } from "@/src/security/log";
 import type { RoastLevel } from "@kudos/shared";
@@ -26,6 +26,10 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
     await db.update(sessions).set({ status: "preview" }).where(eq(sessions.id, id));
     return NextResponse.json({ status: "preview", analysisId: existing.id });
   }
+
+  const analyzeLimit = await checkRateLimit(request, "analyze", 10, 60 * 60 * 1000);
+  if (!analyzeLimit.allowed) return jsonError("RATE_LIMITED", 429);
+
   if (body.regenerate) {
     if (!isRateLimitDisabled() && session.regenerateCount >= 2) return jsonError("RATE_LIMITED", 429);
     await db
@@ -58,7 +62,14 @@ export async function POST(request: NextRequest, context: { params: Promise<{ id
       sessionId: id,
       reason: error instanceof Error ? error.message : "unknown",
     });
-    return jsonError("INVALID_INPUT", 500);
+    if (error instanceof JevAuthError) {
+      return jsonError(
+        "INVALID_INPUT",
+        503,
+        "TypeSafe rejected your API key. Update TYPESAFE_API_KEY or remove it for local demo (code-only awards).",
+      );
+    }
+    return jsonError("INVALID_INPUT", 503, "Award analysis failed. Try again in a moment.");
   }
 
   const exportToMember = new Map(memberRows.map((row) => [row.exportKey, row]));

@@ -1,6 +1,7 @@
 import { eq } from "drizzle-orm";
 import { NextResponse, type NextRequest } from "next/server";
 import { markCeremonyJobComplete } from "@kudos/worker/process";
+import { enqueueCeremony } from "@kudos/worker/queue";
 import { getDb } from "@/src/db";
 import { ceremonyJobs } from "@/src/db/schema";
 import { verifyMagicHourSignature } from "@/src/security/webhook";
@@ -53,6 +54,9 @@ export async function POST(request: NextRequest) {
   }
 
   const updated = await markCeremonyJobComplete(projectId, bytes);
-  if (updated) logEvent("magic_hour_webhook_complete", { projectId });
+  if (updated) {
+    logEvent("magic_hour_webhook_complete", { projectId });
+    await enqueueCeremony(job.ceremonyId);
+  }
   return NextResponse.json({ ok: true });
 }

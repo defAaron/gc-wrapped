@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { getCeremonyProgress } from "@/src/ceremony/progress";
 import { getOwnedSession } from "@/src/session/auth";
-import { createLocalObjectStore } from "@/src/storage/local-disk";
+import { createObjectStore } from "@kudos/storage";
 import { jsonError } from "@/src/security/errors";
 
 export async function GET(request: NextRequest, context: { params: Promise<{ id: string }> }) {
@@ -14,7 +14,7 @@ export async function GET(request: NextRequest, context: { params: Promise<{ id:
     return jsonError("NOT_FOUND", 404);
   }
 
-  const store = createLocalObjectStore();
+  const store = createObjectStore();
   const body = await store.get(ceremony.videoObjectKey);
   if (!body) return jsonError("NOT_FOUND", 404);
 
