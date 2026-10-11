@@ -12,6 +12,10 @@ export type SessionStatus =
 
 export const CEREMONY_QUEUE_NAME = "ceremony";
 
+export const VIDEO_TTL_MS = 7 * 24 * 60 * 60 * 1000;
+export const RATE_LIMIT_TTL_MS = 90 * 24 * 60 * 60 * 1000;
+export const RETENTION_SWEEP_MS = 15 * 60 * 1000;
+
 export type CeremonyStatus =
   | "pending"
   | "tts_batch"
