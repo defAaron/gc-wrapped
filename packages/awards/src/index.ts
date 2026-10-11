@@ -5,7 +5,7 @@ export type { AwardDraft, AwardId } from "./catalog";
 export { assignDeterministicAwards } from "./deterministic";
 export { buildFeatureStore } from "./features";
 export type { FeatureStore, MemberFeatures, ReplyEdge } from "./features/types";
-export { HttpJevClient } from "./jev/client";
+export { HttpJevClient, JevAuthError, JevMaxTokensError, JevRequestError } from "./jev/client";
 export type { JevClient } from "./jev/client";
 export { buildJevState } from "./jev/state";
 export { BLOCKLIST, exemplarsAreOnlyCrisis, isBlocked } from "./copy/blocklist";
