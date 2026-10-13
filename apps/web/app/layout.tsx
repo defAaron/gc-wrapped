@@ -4,7 +4,7 @@ import "./globals.css";
 
 export const metadata: Metadata = {
   title: "Kudos AI",
-  description: "Your group chat deserves a standing ovation.",
+  description: "Turn everyday wins into meaningful moments.",
 };
 
 export default function RootLayout({ children }: { children: ReactNode }) {
