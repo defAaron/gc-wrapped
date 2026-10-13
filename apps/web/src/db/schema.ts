@@ -120,6 +120,7 @@ export const ceremonies = pgTable("ceremonies", {
   mhCreditsTotal: integer("mh_credits_total"),
   createdAt: timestamp("created_at", { withTimezone: true }).notNull().defaultNow(),
   completedAt: timestamp("completed_at", { withTimezone: true }),
+  videoExpiresAt: timestamp("video_expires_at", { withTimezone: true }),
 });
 
 export const ceremonyJobs = pgTable("ceremony_jobs", {
@@ -133,4 +134,6 @@ export const ceremonyJobs = pgTable("ceremony_jobs", {
   status: text("status").notNull().default("pending"),
   attempt: integer("attempt").notNull().default(0),
   objectKey: text("object_key"),
+  scriptText: text("script_text"),
+  memberExportKey: text("member_export_key"),
 });

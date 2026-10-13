@@ -92,7 +92,8 @@ export async function initTestDb(): Promise<Db> {
       fallback_used boolean NOT NULL DEFAULT false,
       mh_credits_total integer,
       created_at timestamptz NOT NULL DEFAULT now(),
-      completed_at timestamptz
+      completed_at timestamptz,
+      video_expires_at timestamptz
     );
     CREATE TABLE IF NOT EXISTS ceremony_jobs (
       id uuid PRIMARY KEY,
@@ -102,7 +103,9 @@ export async function initTestDb(): Promise<Db> {
       external_id text,
       status text NOT NULL DEFAULT 'pending',
       attempt integer NOT NULL DEFAULT 0,
-      object_key text
+      object_key text,
+      script_text text,
+      member_export_key text
     );
   `);
   return db;

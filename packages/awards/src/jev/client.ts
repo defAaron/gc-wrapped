@@ -28,6 +28,23 @@ export class JevMaxTokensError extends Error {
   }
 }
 
+export class JevAuthError extends Error {
+  constructor() {
+    super("JEV_AUTH_FAILED");
+    this.name = "JevAuthError";
+  }
+}
+
+export class JevRequestError extends Error {
+  readonly status: number;
+
+  constructor(status: number) {
+    super("Jev request failed");
+    this.name = "JevRequestError";
+    this.status = status;
+  }
+}
+
 export class HttpJevClient implements JevClient {
   async decide(input: {
     model: "jev-1.13.0";
@@ -50,8 +67,11 @@ export class HttpJevClient implements JevClient {
     if (response.status === 400 && body.includes("max_tokens_exceeded")) {
       throw new JevMaxTokensError();
     }
+    if (response.status === 401 || response.status === 403) {
+      throw new JevAuthError();
+    }
     if (!response.ok) {
-      throw new Error("Jev request failed");
+      throw new JevRequestError(response.status);
     }
     return JSON.parse(body) as JevDecision;
   }

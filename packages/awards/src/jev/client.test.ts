@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { HttpJevClient, JevMaxTokensError } from "./client";
+import { HttpJevClient, JevAuthError, JevMaxTokensError } from "./client";
 
 const apiKeyName = ["TYPESAFE", "API_KEY"].join("_");
 
@@ -27,6 +27,20 @@ describe("HttpJevClient", () => {
       new HttpJevClient().decide({ model: "jev-1.13.0", state: {}, questions: {} }),
     ).rejects.toBeInstanceOf(JevMaxTokensError);
     expect(fetchSpy).toHaveBeenCalledOnce();
+    fetchSpy.mockRestore();
+    if (previous === undefined) delete process.env[apiKeyName];
+    else process.env[apiKeyName] = previous;
+  });
+
+  it("turns a 401 into an auth error", async () => {
+    const previous = process.env[apiKeyName];
+    process.env[apiKeyName] = "test-only";
+    const fetchSpy = vi.spyOn(globalThis, "fetch").mockResolvedValue(
+      new Response(JSON.stringify({ detail: { error_type: "authentication_error" } }), { status: 401 }),
+    );
+    await expect(
+      new HttpJevClient().decide({ model: "jev-1.13.0", state: {}, questions: {} }),
+    ).rejects.toBeInstanceOf(JevAuthError);
     fetchSpy.mockRestore();
     if (previous === undefined) delete process.env[apiKeyName];
     else process.env[apiKeyName] = previous;

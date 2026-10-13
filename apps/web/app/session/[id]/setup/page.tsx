@@ -5,7 +5,13 @@ import { useEffect, useMemo, useState } from "react";
 import type { RoastLevel } from "@kudos/shared";
 import { RoastDial } from "@/components/roast-dial";
 import { SiteHeader } from "@/components/site-header";
-import { getSession, patchSession, type SessionMember } from "@/lib/api";
+import { getSession, patchSession, uploadMemberAvatar, type SessionMember } from "@/lib/api";
+
+function initials(name: string): string {
+  const parts = name.trim().split(/\s+/).filter(Boolean).slice(0, 2);
+  const letters = parts.map((part) => part[0]?.toUpperCase() ?? "").join("");
+  return letters || "?";
+}
 
 export default function SetupPage() {
   const { id } = useParams<{ id: string }>();
@@ -80,6 +86,33 @@ export default function SetupPage() {
                   />
                   <span className="text-xs text-stone-500">{member.messageCount} msgs</span>
                 </div>
+                <div className="mt-2 flex items-center gap-3 text-sm">
+                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-stone-200 text-xs font-semibold text-stone-700">
+                    {initials(member.displayName)}
+                  </span>
+                  <label className="cursor-pointer text-stone-600 underline">
+                    {member.hasAvatar ? "Photo added" : "Add photo"}
+                    <input
+                      type="file"
+                      accept="image/png,image/jpeg"
+                      className="hidden"
+                      onChange={(event) => {
+                        const file = event.target.files?.[0];
+                        if (!file) return;
+                        void uploadMemberAvatar(id, member.id, file)
+                          .then(() => {
+                            setError(null);
+                            setMembers((current) =>
+                              current.map((row) => (row.id === member.id ? { ...row, hasAvatar: true } : row)),
+                            );
+                          })
+                          .catch((caught: unknown) =>
+                            setError(caught instanceof Error ? caught.message : "Could not upload photo."),
+                          );
+                      }}
+                    />
+                  </label>
+                </div>
                 <label className="mt-2 flex items-center gap-2 text-sm">
                   <input
                     type="checkbox"
@@ -120,7 +153,7 @@ export default function SetupPage() {
             </span>
           </label>
           <p className="text-xs text-stone-500">
-            Quotes stay off on the public link. The toggle is stored for later and remains off in this build.
+            Quotes stay off the public link unless you turn them on from the awards page.
           </p>
           <button
             type="button"

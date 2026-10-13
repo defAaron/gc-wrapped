@@ -1,7 +1,10 @@
 import { readFileSync } from "node:fs";
 import { join } from "node:path";
+import { eq } from "drizzle-orm";
 import { NextRequest } from "next/server";
 import { describe, expect, it } from "vitest";
+import { getDb } from "@/src/db";
+import { analyses, awards, sessions } from "@/src/db/schema";
 import { POST as createSession } from "../sessions/route";
 import { PATCH } from "../sessions/[id]/route";
 import { POST as upload } from "../sessions/[id]/upload/route";
@@ -69,6 +72,77 @@ describe("public share api", () => {
     expect(text).not.toContain('"messages"');
     expect(json.videoUrl).toBeNull();
     expect(json.watermark).toBe("Kudos AI");
+  });
+
+  it("publishes a single exemplar quote when the owner opts in", async () => {
+    await resetDb();
+    setJevClientForTests({ decide: async () => ({ answers: {}, usage: { input_tokens: 1 } }) });
+    const create = await createSession(
+      new NextRequest("http://localhost:3000/api/sessions", { method: "POST", headers: headers("") }),
+    );
+    const { sessionId } = (await create.json()) as { sessionId: string };
+    const cookie = `kudos_sid=${create.cookies.get("kudos_sid")?.value}`;
+    await upload(
+      new NextRequest(`http://localhost:3000/api/sessions/${sessionId}/upload`, {
+        method: "POST",
+        headers: { ...headers(cookie), "content-type": "application/json" },
+        body: sample,
+      }),
+      { params: Promise.resolve({ id: sessionId }) },
+    );
+    await PATCH(
+      new NextRequest(`http://localhost:3000/api/sessions/${sessionId}`, {
+        method: "PATCH",
+        headers: headers(cookie),
+        body: JSON.stringify({ consent: true }),
+      }),
+      { params: Promise.resolve({ id: sessionId }) },
+    );
+    await analyze(
+      new NextRequest(`http://localhost:3000/api/sessions/${sessionId}/analyze`, {
+        method: "POST",
+        headers: headers(cookie),
+        body: JSON.stringify({}),
+      }),
+      { params: Promise.resolve({ id: sessionId }) },
+    );
+    const db = getDb();
+    const analysis = await db.query.analyses.findFirst({ where: eq(analyses.sessionId, sessionId) });
+    if (!analysis) throw new Error("analysis missing");
+    const awardRows = await db.query.awards.findMany({ where: eq(awards.analysisId, analysis.id) });
+    const first = awardRows[0];
+    if (!first) throw new Error("award missing");
+    await db.update(awards).set({ exemplarQuote: null }).where(eq(awards.analysisId, analysis.id));
+    await db.update(awards).set({ exemplarQuote: "coffee run" }).where(eq(awards.id, first.id));
+    await PATCH(
+      new NextRequest(`http://localhost:3000/api/sessions/${sessionId}`, {
+        method: "PATCH",
+        headers: headers(cookie),
+        body: JSON.stringify({ quotesPublic: true }),
+      }),
+      { params: Promise.resolve({ id: sessionId }) },
+    );
+    const published = await publish(
+      new NextRequest(`http://localhost:3000/api/sessions/${sessionId}/publish`, {
+        method: "POST",
+        headers: headers(cookie),
+      }),
+      { params: Promise.resolve({ id: sessionId }) },
+    );
+    const { slug } = (await published.json()) as { slug: string };
+    const response = await publicShare(new NextRequest(`http://localhost:3000/api/s/${slug}`), {
+      params: Promise.resolve({ slug }),
+    });
+    const json = (await response.json()) as { awards: { exemplarQuote?: string }[] };
+    const quoted = json.awards.filter((award) => award.exemplarQuote);
+    expect(quoted).toHaveLength(1);
+    expect(quoted[0]?.exemplarQuote).toBe("coffee run");
+    expect(JSON.stringify(json)).not.toContain('"messages"');
+    await db.update(sessions).set({ quotesPublic: false }).where(eq(sessions.id, sessionId));
+    const again = await publicShare(new NextRequest(`http://localhost:3000/api/s/${slug}`), {
+      params: Promise.resolve({ slug }),
+    });
+    expect(JSON.stringify(await again.json())).not.toContain("exemplarQuote");
   });
 
   it("rate limits share reports", async () => {

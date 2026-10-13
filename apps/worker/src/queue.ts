@@ -19,10 +19,15 @@ export function getCeremonyQueue(): Queue<CeremonyJobPayload> {
   return new Queue(CEREMONY_QUEUE_NAME, { connection: getRedisConnection() });
 }
 
+const CEREMONY_POLL_DELAY_MS = 30_000;
+
 export async function enqueueCeremony(ceremonyId: string): Promise<void> {
   if (process.env.CEREMONY_INLINE === "1" || process.env.VITEST === "true") {
-    await processCeremony(ceremonyId);
-    return;
+    for (let attempt = 0; attempt < 40; attempt += 1) {
+      const result = await processCeremony(ceremonyId);
+      if (result !== "continue") return;
+    }
+    throw new Error("ceremony_did_not_finish");
   }
   const queue = getCeremonyQueue();
   await queue.add(
@@ -36,7 +41,19 @@ export function startCeremonyWorker(): Worker<CeremonyJobPayload> {
   const worker = new Worker<CeremonyJobPayload>(
     CEREMONY_QUEUE_NAME,
     async (job) => {
-      await processCeremony(job.data.ceremonyId);
+      const result = await processCeremony(job.data.ceremonyId);
+      if (result === "continue") {
+        await getCeremonyQueue().add(
+          "run",
+          { ceremonyId: job.data.ceremonyId },
+          {
+            delay: CEREMONY_POLL_DELAY_MS,
+            jobId: `ceremony-${job.data.ceremonyId}-${Date.now()}`,
+            removeOnComplete: true,
+            removeOnFail: false,
+          },
+        );
+      }
     },
     { connection: getRedisConnection(), concurrency: 1 },
   );

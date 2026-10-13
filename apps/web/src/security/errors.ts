@@ -14,6 +14,6 @@ const MESSAGES: Partial<Record<ApiErrorCode, string>> = {
   INVALID_INPUT: "Invalid input.",
 };
 
-export function jsonError(code: ApiErrorCode, status: number): NextResponse {
-  return NextResponse.json({ code, message: MESSAGES[code] ?? code }, { status });
+export function jsonError(code: ApiErrorCode, status: number, message?: string): NextResponse {
+  return NextResponse.json({ code, message: message ?? MESSAGES[code] ?? code }, { status });
 }

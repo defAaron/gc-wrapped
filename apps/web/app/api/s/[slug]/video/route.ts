@@ -3,7 +3,7 @@ import { NextResponse, type NextRequest } from "next/server";
 import { getCeremonyProgress } from "@/src/ceremony/progress";
 import { getDb } from "@/src/db";
 import { sessions } from "@/src/db/schema";
-import { createLocalObjectStore } from "@/src/storage/local-disk";
+import { createObjectStore } from "@kudos/storage";
 import { jsonError } from "@/src/security/errors";
 
 export async function GET(_request: NextRequest, context: { params: Promise<{ slug: string }> }) {
@@ -17,7 +17,7 @@ export async function GET(_request: NextRequest, context: { params: Promise<{ sl
     return jsonError("NOT_FOUND", 404);
   }
 
-  const store = createLocalObjectStore();
+  const store = createObjectStore();
   const body = await store.get(ceremony.videoObjectKey);
   if (!body) return jsonError("NOT_FOUND", 404);
 

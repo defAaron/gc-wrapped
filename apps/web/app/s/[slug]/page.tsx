@@ -17,6 +17,7 @@ type PublicShare = {
     winner: { memberId: string; displayName: string };
     presentationLine: string;
     receipts: string[];
+    exemplarQuote?: string;
   }[];
 };
 
@@ -75,6 +76,7 @@ export default async function SharePage({ params }: { params: Promise<{ slug: st
                 winner: award.winner,
                 presentationLine: award.presentationLine,
                 receipts: award.receipts,
+                ...(award.exemplarQuote ? { exemplarQuote: award.exemplarQuote } : {}),
               }}
             />
           ))}

@@ -6,6 +6,7 @@ export type SessionMember = {
   displayName: string;
   messageCount: number;
   excluded: boolean;
+  hasAvatar?: boolean;
 };
 
 export type AwardCard = {
@@ -14,6 +15,7 @@ export type AwardCard = {
   winner: { memberId: string; displayName: string };
   presentationLine: string;
   receipts: string[];
+  exemplarQuote?: string;
 };
 
 export type CeremonyDto = {
@@ -35,6 +37,7 @@ export type SessionDto = {
   roastLevel: string;
   groupTitle: string | null;
   slug: string;
+  quotesPublic?: boolean;
   members: SessionMember[];
   analysis: { awards: AwardCard[] } | null;
   ceremony: CeremonyDto | null;
@@ -109,6 +112,17 @@ export async function publishSession(sessionId: string): Promise<{ shareUrl: str
     credentials: "include",
   });
   return parse(response);
+}
+
+export async function uploadMemberAvatar(sessionId: string, memberId: string, file: File): Promise<void> {
+  const form = new FormData();
+  form.set("file", file);
+  const response = await fetch(`/api/sessions/${sessionId}/members/${memberId}/avatar`, {
+    method: "POST",
+    credentials: "include",
+    body: form,
+  });
+  await parse(response);
 }
 
 export async function startCeremony(sessionId: string): Promise<{ ceremonyId: string; status: string }> {

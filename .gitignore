@@ -9,3 +9,5 @@ dist/
 *.pem
 coverage/
 *.tsbuildinfo
+.DS_Store
+**/.DS_Store

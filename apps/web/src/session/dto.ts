@@ -10,6 +10,7 @@ export async function buildOwnerSessionDto(sessionId: string, session: {
   roastLevel: string;
   groupTitle: string | null;
   slug: string;
+  quotesPublic?: boolean;
 }) {
   const db = getDb();
   const memberRows = await db.query.members.findMany({ where: eq(members.sessionId, sessionId) });
@@ -39,12 +40,14 @@ export async function buildOwnerSessionDto(sessionId: string, session: {
     roastLevel: session.roastLevel,
     groupTitle: session.groupTitle,
     slug: session.slug,
+    quotesPublic: session.quotesPublic ?? false,
     members: memberRows.map((row) => ({
       id: row.id,
       exportKey: row.exportKey,
       displayName: row.displayName,
       messageCount: row.messageCount,
       excluded: row.excluded,
+      hasAvatar: Boolean(row.avatarObjectKey),
     })),
     analysis: analysis
       ? {
