@@ -3,6 +3,8 @@
 !.env.example
 .data/
 node_modules/
+.pnpm-store/
+**/.pnpm-store/
 .next/
 dist/
 *.mp4
