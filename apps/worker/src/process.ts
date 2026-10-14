@@ -9,11 +9,13 @@ import { VIDEO_TTL_MS, type CeremonyStatus, type RoastLevel } from "@kudos/share
 import { getWorkerDb, schema } from "./db";
 import {
   concatVideoBuffers,
+  muxAudioOntoVideo,
   readSlideshowMp4,
-  renderInitialsPng,
   renderSlideshow,
-  renderSpeedRoundCard,
+  renderStillClip,
+  renderStillWithAudio,
 } from "./concat";
+import { renderPersonaGridPng, renderPersonaPng } from "./persona";
 import {
   createFailingMagicHourClient,
   createMagicHourClient,
@@ -23,7 +25,7 @@ import {
 
 export type { MagicHourClient } from "./magic-hour";
 import { TTV_INTRO_PROMPT, TTV_OUTRO_PROMPT } from "./prompts";
-import { buildScript, type ScriptLine } from "./script";
+import { buildScript, HEADLINE_AWARD_ORDER, type ScriptLine } from "./script";
 import { createObjectStore } from "./object-store";
 
 const { ceremonies, ceremonyJobs, sessions, members, analyses, awards } = schema;
@@ -236,17 +238,43 @@ async function loadJobs(ceremonyId: string): Promise<CeremonyJobRow[]> {
   return db.query.ceremonyJobs.findMany({ where: eq(ceremonyJobs.ceremonyId, ceremonyId) });
 }
 
+function isGeneratedAvatar(key: string | null): boolean {
+  if (!key) return true;
+  return key.endsWith("-initials.png") || key.endsWith("-persona.png");
+}
+
 async function ensureInitials(sessionId: string): Promise<void> {
   const db = getWorkerDb();
   const store = createObjectStore();
   const memberRows = await db.query.members.findMany({ where: eq(members.sessionId, sessionId) });
   for (const member of memberRows) {
-    if (member.excluded || member.avatarObjectKey) continue;
-    const png = await renderInitialsPng(member.displayName);
-    const key = `sessions/${sessionId}/avatars/${member.id}-initials.png`;
+    if (member.excluded) continue;
+    if (member.avatarObjectKey?.endsWith("-persona.png")) continue;
+    if (member.avatarObjectKey && !member.avatarObjectKey.endsWith("-initials.png")) continue;
+    const png = renderPersonaPng(member.displayName);
+    const key = `sessions/${sessionId}/avatars/${member.id}-persona.png`;
     await store.put(key, png);
     await db.update(members).set({ avatarObjectKey: key }).where(eq(members.id, member.id));
   }
+}
+
+function speedRoundWinnerNames(
+  awardRows: { awardId: string; winnerMemberId: string }[],
+  memberRows: { id: string; displayName: string; excluded: boolean }[],
+): string[] {
+  const present = new Set(awardRows.map((row) => row.awardId));
+  const headline = new Set(HEADLINE_AWARD_ORDER.filter((id) => present.has(id)));
+  const names: string[] = [];
+  const seen = new Set<string>();
+  for (const row of awardRows) {
+    if (headline.has(row.awardId as (typeof HEADLINE_AWARD_ORDER)[number])) continue;
+    if (seen.has(row.winnerMemberId)) continue;
+    const member = memberRows.find((candidate) => candidate.id === row.winnerMemberId);
+    if (!member || member.excluded) continue;
+    seen.add(row.winnerMemberId);
+    names.push(member.displayName);
+  }
+  return names;
 }
 
 async function noteFailure(job: CeremonyJobRow): Promise<void> {
@@ -349,7 +377,7 @@ async function startVideos(
       if (job.type !== "talking_photo" || !job.memberExportKey) continue;
       const audio = jobs.find((row) => row.type === "tts" && row.lineId === job.lineId && row.objectKey);
       const member = memberRows.find((row) => row.exportKey === job.memberExportKey);
-      if (!audio?.objectKey || !member?.avatarObjectKey) continue;
+      if (!audio?.objectKey || !member?.avatarObjectKey || isGeneratedAvatar(member.avatarObjectKey)) continue;
       const image = await magicHourAssetRef(client, member.avatarObjectKey, "image", "png");
       const audioAsset = await magicHourAssetRef(client, audio.objectKey, "audio", "wav");
       const created = await client.createTalkingPhoto({
@@ -377,13 +405,44 @@ async function startVideos(
 }
 
 async function renderPendingCards(jobs: CeremonyJobRow[], sessionId: string) {
+  const pending = jobs.filter((job) => job.type === "card" && job.status !== "complete" && job.lineId);
+  if (pending.length === 0) return;
   const db = getWorkerDb();
   const store = createObjectStore();
-  for (const job of jobs) {
-    if (job.type !== "card" || job.status === "complete" || !job.scriptText || !job.lineId) continue;
-    const card = await renderSpeedRoundCard(job.scriptText);
+  const { awardRows, memberRows } = await loadCeremonyContext(sessionId);
+  const png = renderPersonaGridPng(speedRoundWinnerNames(awardRows, memberRows));
+  for (const job of pending) {
+    if (!job.lineId) continue;
+    const audioJob = jobs.find((row) => row.type === "tts" && row.lineId === job.lineId && row.objectKey);
+    const audio = audioJob?.objectKey ? await store.get(audioJob.objectKey) : null;
+    const card = audio ? await renderStillWithAudio(png, audio) : await renderStillClip(png, 6);
     const key = `sessions/${sessionId}/clips/${job.lineId}.mp4`;
     await store.put(key, card);
+    await db.update(ceremonyJobs).set({ status: "complete", objectKey: key }).where(eq(ceremonyJobs.id, job.id));
+  }
+}
+
+async function renderPersonaAwardClips(jobs: CeremonyJobRow[], sessionId: string) {
+  const pending = jobs.filter((job) => job.type === "talking_photo" && job.status !== "complete" && job.lineId);
+  if (pending.length === 0) return;
+  const db = getWorkerDb();
+  const store = createObjectStore();
+  const { awardRows, memberRows } = await loadCeremonyContext(sessionId);
+  const titles = new Map(awardRows.map((row) => [row.awardId, row.title]));
+  for (const job of pending) {
+    if (!job.lineId || !job.memberExportKey) continue;
+    const member = memberRows.find((row) => row.exportKey === job.memberExportKey);
+    if (!member?.avatarObjectKey?.endsWith("-persona.png")) continue;
+    const audioJob = jobs.find((row) => row.type === "tts" && row.lineId === job.lineId && row.objectKey);
+    if (!audioJob?.objectKey) continue;
+    const audio = await store.get(audioJob.objectKey);
+    if (!audio) continue;
+    const awardId = job.lineId.startsWith("headline_") ? job.lineId.slice("headline_".length) : job.lineId;
+    const caption = titles.get(awardId) ?? "";
+    const png = renderPersonaPng(member.displayName, caption);
+    const clip = await renderStillWithAudio(png, audio);
+    const key = `sessions/${sessionId}/clips/${job.lineId}.mp4`;
+    await store.put(key, clip);
     await db.update(ceremonyJobs).set({ status: "complete", objectKey: key }).where(eq(ceremonyJobs.id, job.id));
   }
 }
@@ -403,7 +462,13 @@ async function concatFromJobs(ceremonyId: string, sessionId: string, jobs: Cerem
   for (const line of lines) {
     if (line.id === "intro" || line.id === "outro") {
       const job = jobs.find((row) => row.type === "ttv" && row.lineId === line.id);
-      buffers.push(await bufferFor(job?.objectKey ?? null));
+      const video = await bufferFor(job?.objectKey ?? null);
+      const audioJob = jobs.find((row) => row.type === "tts" && row.lineId === line.id && row.objectKey);
+      if (!audioJob?.objectKey) {
+        buffers.push(video);
+      } else {
+        buffers.push(await muxAudioOntoVideo(video, await bufferFor(audioJob.objectKey)));
+      }
     } else if (line.id === "speed_round") {
       const job = jobs.find((row) => row.type === "card" && row.lineId === "speed_round");
       buffers.push(await bufferFor(job?.objectKey ?? null));
@@ -461,6 +526,7 @@ async function advanceMagicHour(ceremonyId: string, sessionId: string, client: M
   await setCeremonyStatus(ceremonyId, "mh_clips_running");
   await ensureInitials(sessionId);
   await renderPendingCards(jobs, sessionId);
+  await renderPersonaAwardClips(jobs, sessionId);
   jobs = await loadJobs(ceremonyId);
   const videos = () => jobs.filter((job) => job.type === "ttv" || job.type === "talking_photo");
   await pollJobs(
@@ -496,7 +562,9 @@ export async function seedCeremonyJobs(ceremonyId: string, sessionId: string): P
   const { script } = await loadCeremonyContext(sessionId);
   for (const line of script.lines) {
     const text = sanitizeLine(line.text);
-    if (line.memberId && line.awardId) {
+    const voiced =
+      line.id === "intro" || line.id === "outro" || line.id === "speed_round" || Boolean(line.memberId && line.awardId);
+    if (voiced) {
       await db.insert(ceremonyJobs).values({
         ceremonyId,
         type: "tts",

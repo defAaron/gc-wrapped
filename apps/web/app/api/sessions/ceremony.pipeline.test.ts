@@ -139,8 +139,14 @@ describe("magic hour ceremony pipeline", () => {
     expect(firstVideo).toBeGreaterThan(lastTts);
 
     const store = createObjectStore();
-    expect(calls.some((call) => call.startsWith("tts:headline_"))).toBe(true);
-    expect(calls).not.toContain("tts:intro");
+    const headline = calls.find((call) => call.startsWith("tts:headline_"));
+    expect(headline).toBeTruthy();
+    expect(calls).toContain("tts:intro");
+    expect(calls).toContain("tts:outro");
+    expect(calls.some((call) => call.startsWith("talk:"))).toBe(false);
+    const lineId = headline?.slice("tts:".length);
+    expect(lineId).toBeTruthy();
+    expect(await store.get(`sessions/${sessionId}/clips/${lineId}.mp4`)).toBeTruthy();
     expect(await store.get(`sessions/${sessionId}/clips/intro.mp4`)).toBeTruthy();
     expect(await store.get(`sessions/${sessionId}/final.mp4`)).toBeTruthy();
 

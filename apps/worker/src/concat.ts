@@ -3,6 +3,7 @@ import { existsSync } from "node:fs";
 import { mkdir, mkdtemp, readFile, rm, writeFile } from "node:fs/promises";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
+import { renderPersonaPng } from "./persona";
 import type { ScriptLine } from "./script";
 
 export async function ffmpegAvailable(): Promise<boolean> {
@@ -127,11 +128,6 @@ function escapeDrawtext(text: string): string {
   return text.replaceAll("\\", "\\\\").replaceAll(":", "\\:").replaceAll("'", "’");
 }
 
-function initialsFromName(displayName: string): string {
-  const parts = displayName.trim().split(/\s+/).filter(Boolean).slice(0, 2);
-  const letters = parts.map((part) => part[0]?.toUpperCase() ?? "").join("");
-  return letters || "?";
-}
 
 async function probeHasAudio(file: string): Promise<boolean> {
   return new Promise((resolve) => {
@@ -206,30 +202,140 @@ function drawtextFilter(font: string, text: string, size: number, y: string): st
 }
 
 export async function renderInitialsPng(displayName: string): Promise<Buffer> {
-  const dir = await mkdtemp(join(tmpdir(), "kudos-avatar-"));
-  const outputPath = join(dir, "avatar.png");
-  const font = findFont();
-  const label = initialsFromName(displayName);
-  const vf = font ? drawtextFilter(font, label, 160, "(h-text_h)/2") : undefined;
-  const args = [
-    "-y",
-    "-f",
-    "lavfi",
-    "-i",
-    "color=c=0x44403c:s=720x1280:d=1",
-    "-frames:v",
-    "1",
-    ...(vf ? ["-vf", vf] : []),
-    outputPath,
-  ];
+  return renderPersonaPng(displayName);
+}
+
+async function withTempDir<T>(prefix: string, run: (dir: string) => Promise<T>): Promise<T> {
+  const dir = await mkdtemp(join(tmpdir(), prefix));
   try {
-    await runFfmpeg(args);
-  } catch {
-    await runFfmpeg(args.filter((part, index) => part !== "-vf" && args[index - 1] !== "-vf"));
+    return await run(dir);
+  } finally {
+    await rm(dir, { recursive: true, force: true }).catch(() => undefined);
   }
-  const body = await readFile(outputPath);
-  await rm(dir, { recursive: true, force: true }).catch(() => undefined);
-  return body;
+}
+
+export async function renderStillClip(image: Buffer, durationSec: number): Promise<Buffer> {
+  return withTempDir("kudos-still-", async (dir) => {
+    const imagePath = join(dir, "persona.png");
+    const outputPath = join(dir, "clip.mp4");
+    await writeFile(imagePath, image);
+    const duration = Math.max(1, durationSec);
+    await runFfmpeg([
+      "-y",
+      "-loop",
+      "1",
+      "-framerate",
+      "30",
+      "-i",
+      imagePath,
+      "-f",
+      "lavfi",
+      "-i",
+      "anullsrc=channel_layout=stereo:sample_rate=48000",
+      "-map",
+      "0:v:0",
+      "-map",
+      "1:a:0",
+      "-vf",
+      FRAME_FILTER,
+      "-t",
+      duration.toFixed(3),
+      "-c:v",
+      "libx264",
+      "-pix_fmt",
+      "yuv420p",
+      "-c:a",
+      "aac",
+      "-shortest",
+      outputPath,
+    ]);
+    return readFile(outputPath);
+  });
+}
+
+export async function renderStillWithAudio(image: Buffer, audio: Buffer): Promise<Buffer> {
+  return withTempDir("kudos-persona-clip-", async (dir) => {
+    const imagePath = join(dir, "persona.png");
+    const audioPath = join(dir, "line.bin");
+    const outputPath = join(dir, "clip.mp4");
+    await writeFile(imagePath, image);
+    await writeFile(audioPath, audio);
+    const duration = Math.max(1, await probeDuration(audioPath));
+    await runFfmpeg([
+      "-y",
+      "-loop",
+      "1",
+      "-framerate",
+      "30",
+      "-i",
+      imagePath,
+      "-i",
+      audioPath,
+      "-map",
+      "0:v:0",
+      "-map",
+      "1:a:0",
+      "-vf",
+      FRAME_FILTER,
+      "-t",
+      duration.toFixed(3),
+      "-c:v",
+      "libx264",
+      "-pix_fmt",
+      "yuv420p",
+      "-c:a",
+      "aac",
+      "-ar",
+      "48000",
+      "-ac",
+      "2",
+      outputPath,
+    ]);
+    return readFile(outputPath);
+  });
+}
+
+export async function muxAudioOntoVideo(video: Buffer, audio: Buffer): Promise<Buffer> {
+  return withTempDir("kudos-mux-", async (dir) => {
+    const videoPath = join(dir, "video.mp4");
+    const audioPath = join(dir, "audio.bin");
+    const outputPath = join(dir, "clip.mp4");
+    await writeFile(videoPath, video);
+    await writeFile(audioPath, audio);
+    const videoDur = await probeDuration(videoPath);
+    const audioDur = await probeDuration(audioPath);
+    const target = Math.max(videoDur, audioDur, 0.5);
+    const pad = Math.max(0, target - videoDur);
+    const filters = [FRAME_FILTER];
+    if (pad > 0.02) filters.push(`tpad=stop_mode=clone:stop_duration=${pad.toFixed(3)}`);
+    await runFfmpeg([
+      "-y",
+      "-i",
+      videoPath,
+      "-i",
+      audioPath,
+      "-map",
+      "0:v:0",
+      "-map",
+      "1:a:0",
+      "-vf",
+      filters.join(","),
+      "-t",
+      target.toFixed(3),
+      "-c:v",
+      "libx264",
+      "-pix_fmt",
+      "yuv420p",
+      "-c:a",
+      "aac",
+      "-ar",
+      "48000",
+      "-ac",
+      "2",
+      outputPath,
+    ]);
+    return readFile(outputPath);
+  });
 }
 
 export async function renderSpeedRoundCard(text: string): Promise<Buffer> {
