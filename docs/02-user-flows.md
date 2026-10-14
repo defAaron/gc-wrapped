@@ -103,7 +103,41 @@ No native JSON. Demo options:
 
 ### Kudos Chat JSON v1
 
-Power users / scripts: see [07-api-and-data-model.md](./07-api-and-data-model.md#kudos-chat-json-v1).
+Canonical format after a platform export is normalized, and the format scripts can upload directly.
+
+```json
+{
+  "kudos_version": "1",
+  "chat": {
+    "title": "Apartment 4B",
+    "platform": "telegram",
+    "exported_at": "2025-09-30T12:00:00Z"
+  },
+  "members": [
+    { "id": "user123", "display_name": "Alex" },
+    { "id": "user456", "display_name": "Sam" }
+  ],
+  "messages": [
+    {
+      "id": "m1",
+      "ts": "2024-11-02T01:14:00Z",
+      "author_id": "user123",
+      "text": "bro nobody asked for a TED talk",
+      "type": "message",
+      "reactions": [{ "emoji": "😂", "count": 2 }]
+    }
+  ]
+}
+```
+
+| Field | Required | Rules |
+|-------|----------|-------|
+| `kudos_version` | Yes | `"1"` |
+| `messages[].id` | Yes | Unique string |
+| `messages[].ts` | Yes | ISO 8601 UTC |
+| `messages[].author_id` | Yes | Must exist in `members`, or the member is created from the author id |
+| `messages[].text` | No | Default `""`; max 10k chars |
+| `members` | No | Inferred from authors if omitted |
 
 ---
 
@@ -236,7 +270,7 @@ Show roast level reminder. Allow cancel → discard session.
 3. Complete: inline player (9:16), **Download MP4**, **Copy link**.
 4. Link: `kudos.ai/s/{slug}` — `noindex` meta, unlisted slug (unguessable).
 
-**Failure:** static fallback page (see [04](./04-ceremony-generation.md)).
+**Failure:** if the video cannot be rendered, the share page still shows the awards.
 
 ---
 
@@ -247,14 +281,3 @@ Suggested share copy:
 > “We ran our group chat through Kudos AI. I’m allegedly the Funniest. Your turn: [link]”
 
 OG tags: group title + “Kudos AI Awards”; preview image = composite award card (not video on first paint).
-
----
-
-## Assumptions & open questions
-
-| # | Item |
-|---|------|
-| 1 | **Assumption:** Single JSON file per session at demo; Messenger multi-file merge is v2. |
-| 2 | **Assumption:** Session identified by cookie + server id; no account required. |
-| 3 | **Open:** Show raw message quotes on award cards or receipts-only for privacy. |
-| 4 | **Open:** Watermark “Made with Kudos AI” on free demo video (recommended yes). |

@@ -1,4 +1,4 @@
-# 06 — Data & privacy
+# Data & privacy
 
 **Kudos AI** processes **other people’s messages** and optionally **their likeness**. This doc is opinionated for the demo MVP; **not legal advice**—counsel before public launch.
 
@@ -31,7 +31,6 @@
 1. **Uploader attestation** (required): they have permission to analyze and share, or removed non-consenting members ([02](./02-user-flows.md)).
 2. **No per-subject opt-in** before analysis at demo—**risk accepted** for friends-and-family demo with counsel review before scale.
 3. **Before public link:** uploader confirms again on “Publish ceremony.”
-4. **v2:** opt-out URL in share page footer; DSR email.
 
 ### Non-consenting members
 
@@ -132,26 +131,9 @@ See [02](./02-user-flows.md#upload-validation--security). Additional notes:
 
 ---
 
-## Data Processing Agreement (future)
-
-Before B2B or paid launch: DPA with TypeSafe and Magic Hour; subprocessors list; EU SCCs if needed.
-
----
-
-## Incident response (demo)
+## Incident response
 
 1. Revoke slug.
 2. Delete session row + R2 objects.
 3. Rotate API keys if leak suspected.
 4. Notify users if breach affects stored avatars/awards.
-
----
-
-## Assumptions & open questions
-
-| # | Item |
-|---|------|
-| 1 | **Assumption:** 30-day session TTL acceptable for demo. |
-| 2 | **Assumption:** Storing 5 exemplar strings/member is necessary for receipts—could hash-only in stricter mode. |
-| 3 | **Open:** Legal review before Product Hunt / paid ads. |
-| 4 | **Open:** Enterprise ZDR with TypeSafe before processing sensitive corporate chats. |

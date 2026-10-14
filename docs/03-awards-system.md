@@ -460,31 +460,4 @@ Each award exports:
 }
 ```
 
-Magic Hour script generation uses this ordered list (see `04-ceremony-generation.md`).
-
----
-
-## Testing strategy
-
-| Test | Method |
-|------|--------|
-| Parser fixtures | Per-platform snippets → golden feature vectors |
-| Deterministic awards | Fixed RNG seed, known winner |
-| Jev integration | Recorded `decide` responses (VCR); pin model version |
-| Tone safety | Red-team chats; assert blocked awards/quotes |
-| Token budget | Synthetic 80k-token state → must split without crash |
-
----
-
-## Assumptions & open questions
-
-| # | Item |
-|---|------|
-| 1 | **Assumption:** WhatsApp reactions are not available in standard txt export—`hype_person` leans on Telegram/Discord/Messenger where reactions exist. |
-| 2 | **Assumption:** “Funniest” is Jev-judged on exemplars, not embedding clustering. |
-| 3 | **Confirmed:** Max **4** awards per person before reassignment. |
-| 4 | **Confirmed:** Roast dial **gentle / medium / spicy** on upload flow. |
-| 5 | **Open:** Include **runner-up** on share card or spoil surprise? |
-| 6 | **Risk:** Jev `instructions` are not shown to users—need internal audit log, not PII in logs. |
-| 7 | **Risk:** TypeSafe **telemetry** may process derived metadata even when Input isn’t used for training—enterprise ZDR for scale? |
-| 8 | **Confirmed:** Jev cannot emit custom award titles or paragraphs—template copy is mandatory. |
+The ceremony script uses this ordered list.

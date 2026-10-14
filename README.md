@@ -4,11 +4,11 @@ Turn a group-chat JSON export into roasty friend awards and an AI-generated awar
 
 ## Status
 
-**Demo, ready to deploy.** Product docs in [`/docs`](./docs). **Free** end-to-end—no paywall. Local dev uses the slideshow ceremony unless Magic Hour credentials are set.
+**Free demo.** Product docs are in [`/docs`](./docs). Local dev uses the slideshow ceremony unless Magic Hour credentials are set.
 
 ## What we're building
 
-1. User uploads a **JSON** chat file (native [Kudos format](./docs/07-api-and-data-model.md#kudos-chat-json-v1) or auto-detected platform export).
+1. User uploads a **JSON** chat file (native [Kudos format](./docs/02-user-flows.md#kudos-chat-json-v1) or auto-detected platform export).
 2. We **validate** for size/structure/malicious content, normalize messages, compute stats, and use [Jev](https://jevtypesafeai.com/jev/api) for subjective award judging.
 3. User picks roast level (**gentle / medium / spicy**) and optional avatars.
 4. [Magic Hour](https://docs.magichour.ai/integration/overview) renders a shareable ceremony video (async + webhooks).
@@ -43,8 +43,6 @@ Turn a group-chat JSON export into roasty friend awards and an AI-generated awar
 | `MAGIC_HOUR_API_KEY` | Ceremony render |
 | `MAGIC_HOUR_WEBHOOK_SECRET` | Magic Hour webhook verification |
 
-Full system design: [docs/05-architecture.md](./docs/05-architecture.md).
-
 ## Run
 
 **Prerequisites:** Node 22, [pnpm](https://pnpm.io/) 9, Docker (for Postgres + Redis).
@@ -77,21 +75,7 @@ Schema is managed with [Drizzle](https://orm.drizzle.team/) (`apps/web/src/db/sc
 pnpm --filter @kudos/web db:push
 ```
 
-Uses `DATABASE_URL` from the root `.env` (see `apps/web/drizzle.config.ts`).
-
-## Deploy
-
-| Piece | Host | Notes |
-|-------|------|--------|
-| Web | Vercel | Set the project **Root Directory** to `apps/web`. [`apps/web/vercel.json`](./apps/web/vercel.json) installs and builds from the repo root. |
-| Worker + ffmpeg | Fly.io | From the repo root: `fly deploy` ([`fly.toml`](./fly.toml), [`apps/worker/Dockerfile`](./apps/worker/Dockerfile)). One machine is enough. |
-| Postgres | Neon | `DATABASE_URL` on both Vercel and Fly (pooled connection string). Apply schema with `pnpm --filter @kudos/web db:push`. |
-| Redis | Upstash | `REDIS_URL` (`rediss://`) on both. |
-| Objects | Cloudflare R2 | `OBJECT_STORE=r2` plus the `R2_*` variables. The app uses presigned GET URLs so Magic Hour can fetch avatars and audio without a public bucket. |
-
-Set `APP_ORIGIN` to the public site origin (for example `https://your-app.vercel.app`) if the browser origin and `Host` header can differ. Point the Magic Hour webhook at `https://<web-host>/api/webhooks/magic-hour` and use the same `MAGIC_HOUR_WEBHOOK_SECRET` in the app.
-
-There is no public URL in this repo until that project is created. Do not commit `.env`.
+Uses `DATABASE_URL` from the root `.env` (see `apps/web/drizzle.config.ts`). Do not commit `.env`.
 
 ## Build
 
@@ -117,14 +101,10 @@ CI runs `test`, `typecheck`, and `secrets:scan` on push/PR ([`.github/workflows/
 
 | Doc | Contents |
 |-----|----------|
-| [01-product-brief.md](./docs/01-product-brief.md) | Problem, users, demo MVP scope, metrics |
-| [02-user-flows.md](./docs/02-user-flows.md) | Landing → share; export guides; upload security |
-| [03-awards-system.md](./docs/03-awards-system.md) | Awards catalog, Jev schema, large chats |
-| [04-ceremony-generation.md](./docs/04-ceremony-generation.md) | Magic Hour pipeline, cost, fallbacks |
-| [05-architecture.md](./docs/05-architecture.md) | Stack, services, diagram |
-| [06-data-and-privacy.md](./docs/06-data-and-privacy.md) | Consent, retention, third parties |
-| [07-api-and-data-model.md](./docs/07-api-and-data-model.md) | Entities, endpoints, JSON schema |
-| [08-roadmap-and-risks.md](./docs/08-roadmap-and-risks.md) | Milestones, risks, unit economics |
+| [01-product-brief.md](./docs/01-product-brief.md) | What Kudos AI is and what the demo includes |
+| [02-user-flows.md](./docs/02-user-flows.md) | Export guides, upload, awards, and sharing |
+| [03-awards-system.md](./docs/03-awards-system.md) | Award catalog, roast levels, and how winners are chosen |
+| [04-data-and-privacy.md](./docs/04-data-and-privacy.md) | Consent, retention, and third parties |
 
 ## Key decisions
 
@@ -140,7 +120,7 @@ CI runs `test`, `typecheck`, and `secrets:scan` on push/PR ([`.github/workflows/
 ## Repo layout
 
 ```
-/docs/                 Product & architecture
+/docs/                 Product guides
 /apps/web/             Next.js UI + API routes
 /apps/worker/          Background jobs (BullMQ)
 /packages/chat-json/   Schema, validators, platform adapters

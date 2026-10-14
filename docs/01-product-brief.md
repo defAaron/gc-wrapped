@@ -59,7 +59,7 @@ flowchart LR
 | In scope | Out of scope |
 |----------|----------------|
 | Web app, mobile-friendly | Native apps |
-| **JSON upload only** (see [07](./07-api-and-data-model.md)) | `.txt`, ZIP, live APIs |
+| **JSON upload only** (see [export guides](./02-user-flows.md)) | `.txt`, ZIP, live APIs |
 | Auto-detect **Telegram**, **Messenger**, **DiscordChatExporter** JSON + **Kudos v1** schema | WhatsApp txt at launch (guide users to convert or use sample) |
 | Malicious / abusive JSON checks | AV scanning of binaries inside JSON (no embedded blobs at MVP) |
 | 3–20 members, ≥500 messages recommended | 2M+ msgs without date-range picker |
@@ -75,7 +75,7 @@ flowchart LR
 
 | Layer | Behavior |
 |-------|----------|
-| **Canonical** | [Kudos Chat JSON v1](./07-api-and-data-model.md#kudos-chat-json-v1) — documented for scripts and partners |
+| **Canonical** | [Kudos Chat JSON v1](./02-user-flows.md#kudos-chat-json-v1) — documented for scripts and partners |
 | **Adapters** | Sniff `format` / shape → normalize to canonical |
 | **Security** | Reject oversize, deeply nested, prototype-pollution keys, HTML/script in text fields, absurd cardinality (see [02](./02-user-flows.md#upload-validation--security)) |
 
@@ -91,45 +91,17 @@ Platform research (for **export guides**, not separate parsers at MVP):
 
 **Upload limits (demo):** **50 MB** JSON max; **500k messages** max after normalize; **10k** max per message body length (truncate with warning).
 
-## Business model
+## Pricing
 
-**Demo: everything free.** No paywall, no credits UI. Internal cost caps (Magic Hour + Jev) enforced via rate limits and queue depth (see [08](./08-roadmap-and-risks.md)).
-
-Post-demo options (not committed): free preview + paid HD, or one-time per ceremony.
-
-## Success metrics (demo)
-
-| Metric | Target |
-|--------|--------|
-| Upload → awards preview | ≥ 50% |
-| Preview → ceremony started | ≥ 70% |
-| Ceremony completed (non-fallback) | ≥ 85% of started |
-| Share (link copy or MP4 download) | ≥ 35% |
-| Median time to preview (30k msgs) | < 90s |
-| Security rejects (abusive uploads) | logged; <1% false positive |
+The demo is free. There is no paywall and no credits screen.
 
 ## Principles
 
 1. **Roast, don’t harm** — [03](./03-awards-system.md).
-2. **JSON in, nothing raw kept** — delete upload after analysis ([06](./06-data-and-privacy.md)).
+2. **JSON in, nothing raw kept** — delete upload after analysis ([04](./04-data-and-privacy.md)).
 3. **Jev for judgment, code for math.**
 4. **Kudos AI** branding; don’t imply official partnership with chat apps.
 
 ## Naming
 
 **Chosen:** **Kudos AI** — positive frame (“kudos”) with explicit AI transparency for ceremony and judging.
-
----
-
-## Assumptions & open questions
-
-| # | Item |
-|---|------|
-| 1 | **Confirmed:** Free demo; no monetization in v0.1. |
-| 2 | **Confirmed:** JSON-only upload with security validation. |
-| 3 | **Confirmed:** Roast dial gentle / medium / spicy. |
-| 4 | **Confirmed:** Max 4 awards per person. |
-| 5 | **Confirmed:** Jev via TypeSafe direct API; pin model version. |
-| 6 | **Assumption:** ≥3 members and ≥500 messages for “full” award deck; fewer → shortened deck + UI warning. |
-| 7 | **Open:** Allow multi-file Messenger (merge `message_*.json`) in one session vs single file only at demo. |
-| 8 | **Open:** Public share links indexed by Google (default `noindex` assumed). |
