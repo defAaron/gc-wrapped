@@ -3,8 +3,7 @@ import { headers } from "next/headers";
 import { AwardCard } from "@/components/award-card";
 import { CeremonyPlayer } from "@/components/ceremony-player";
 import { ShareReportForm } from "@/components/share-report-form";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
+import { SiteShell } from "@/components/site-shell";
 import { suggestedShareCopy } from "@/lib/share-copy";
 
 type PublicShare = {
@@ -39,34 +38,35 @@ export default async function SharePage({ params }: { params: Promise<{ slug: st
   const share = await loadShare(slug);
   if (!share) {
     return (
-      <div className="min-h-screen">
-        <SiteHeader />
-        <main className="mx-auto max-w-xl px-6 py-10">This share link is not available.</main>
-      </div>
+      <SiteShell>
+        <main className="kudos-main">
+          <h1 className="kudos-title">Link unavailable</h1>
+          <p className="kudos-lede">This share link is not available.</p>
+        </main>
+      </SiteShell>
     );
   }
 
   return (
-    <div className="min-h-screen">
+    <SiteShell>
       <meta name="robots" content="noindex, nofollow" />
-      <SiteHeader />
-      <main className="mx-auto max-w-5xl px-6 py-10">
-        <h1 className="text-3xl font-semibold">{share.groupTitle ?? "Group chat awards"}</h1>
+      <main className="kudos-main kudos-main-wide">
+        <h1 className="kudos-title">{share.groupTitle ?? "Group chat awards"}</h1>
         {share.videoUrl ? (
-          <div className="mt-6">
+          <div className="kudos-stack">
             <CeremonyPlayer src={share.videoUrl} downloadFileName="kudos-ceremony.mp4" />
           </div>
         ) : (
-          <p className="mt-2 text-stone-600">The stage lights are next.</p>
+          <p className="kudos-lede">The stage lights are next.</p>
         )}
-        <p className="mt-2 text-xs text-stone-500">{share.watermark}</p>
-        <p className="mt-4 text-sm text-stone-600">
+        <p className="kudos-note kudos-spaced">{share.watermark}</p>
+        <p className="kudos-lede">
           {suggestedShareCopy(
             share.awards.find((award) => award.awardId === "funniest")?.winner.displayName ?? null,
             `/s/${slug}`,
           )}
         </p>
-        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+        <div className="kudos-grid kudos-grid-3">
           {share.awards.map((award) => (
             <AwardCard
               key={award.awardId}
@@ -83,7 +83,6 @@ export default async function SharePage({ params }: { params: Promise<{ slug: st
         </div>
         <ShareReportForm slug={slug} />
       </main>
-      <SiteFooter />
-    </div>
+    </SiteShell>
   );
 }

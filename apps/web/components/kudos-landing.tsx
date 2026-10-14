@@ -18,7 +18,7 @@ const reactions = [
 
 const letters = "Kudos".split("");
 
-export function KudosLanding({ fontClassName }: { fontClassName: string }) {
+export function KudosLanding() {
   const router = useRouter();
   const headingRef = useRef<HTMLHeadingElement>(null);
   const [pointer, setPointer] = useState({ x: 0.5, y: 0.5, active: false });
@@ -49,7 +49,7 @@ export function KudosLanding({ fontClassName }: { fontClassName: string }) {
   }
 
   return (
-    <main className={`kudos-landing ${fontClassName}`}>
+    <main className="kudos-landing">
       <div className="ambient ambient-left" />
       <div className="ambient ambient-right" />
 

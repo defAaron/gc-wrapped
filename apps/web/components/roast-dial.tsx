@@ -16,20 +16,19 @@ export function RoastDial({
   onChange: (level: RoastLevel) => void;
 }) {
   return (
-    <div className="flex flex-col gap-2">
-      <p className="text-sm font-medium text-stone-700">Roast level</p>
-      <div className="grid grid-cols-3 gap-2">
+    <div>
+      <p className="kudos-label">Roast level</p>
+      <div className="kudos-choice-grid">
         {LEVELS.map((level) => (
           <button
             key={level.id}
             type="button"
             onClick={() => onChange(level.id)}
-            className={`rounded-xl border px-3 py-2 text-left ${
-              value === level.id ? "border-stone-900 bg-white" : "border-stone-200 bg-stone-50"
-            }`}
+            className={`kudos-choice ${value === level.id ? "is-selected" : ""}`}
+            aria-pressed={value === level.id}
           >
-            <span className="block text-sm font-semibold">{level.label}</span>
-            <span className="block text-xs text-stone-500">{level.hint}</span>
+            <span className="kudos-choice-label">{level.label}</span>
+            <span className="kudos-choice-hint">{level.hint}</span>
           </button>
         ))}
       </div>

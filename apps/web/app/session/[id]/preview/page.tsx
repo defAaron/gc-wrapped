@@ -4,8 +4,7 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { AwardCard } from "@/components/award-card";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
+import { SiteShell } from "@/components/site-shell";
 import { analyzeSession, getSession, patchSession, publishSession, startCeremony, type SessionDto } from "@/lib/api";
 
 export default function PreviewPage() {
@@ -81,21 +80,20 @@ export default function PreviewPage() {
   }
 
   return (
-    <div className="min-h-screen">
-      <SiteHeader />
-      <main className="mx-auto max-w-5xl px-6 py-10">
-        <h1 className="text-2xl font-semibold">{session?.groupTitle ?? "Your awards"}</h1>
-        {phase ? <p className="mt-2 text-stone-600">{phase}</p> : null}
-        {error ? <p className="mt-2 text-sm text-red-700">{error}</p> : null}
-        <div className="mt-6 grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+    <SiteShell>
+      <main className="kudos-main kudos-main-wide">
+        <h1 className="kudos-title">{session?.groupTitle ?? "Your awards"}</h1>
+        {phase ? <p className="kudos-lede">{phase}</p> : null}
+        {error ? <p className="kudos-error kudos-spaced">{error}</p> : null}
+        <div className="kudos-grid kudos-grid-3">
           {session?.analysis?.awards.map((award) => <AwardCard key={award.awardId} award={award} />)}
         </div>
-        <div className="mt-8 flex flex-wrap gap-3">
+        <div className="kudos-actions">
           <button
             type="button"
             disabled={regenDisabled || !!phase}
             onClick={() => void regenerate()}
-            className="rounded-full border border-stone-300 px-4 py-2 text-sm disabled:opacity-50"
+            className="kudos-btn kudos-btn-secondary"
           >
             Regenerate
           </button>
@@ -103,11 +101,14 @@ export default function PreviewPage() {
             type="button"
             disabled={ceremonyLoading || !!phase}
             onClick={() => void generateCeremony()}
-            className="rounded-full border border-stone-300 px-4 py-2 text-sm disabled:opacity-50"
+            className="kudos-btn kudos-btn-secondary"
           >
             {ceremonyLoading ? "Starting…" : "Generate ceremony"}
           </button>
-          <label className="flex items-center gap-2 text-sm text-stone-700">
+          <button type="button" onClick={() => void publish()} className="kudos-btn kudos-btn-primary">
+            Publish share page
+          </button>
+          <label className="kudos-check">
             <input
               type="checkbox"
               checked={Boolean(session?.quotesPublic)}
@@ -118,24 +119,13 @@ export default function PreviewPage() {
             />
             Show one receipt quote on the public link
           </label>
-          <button
-            type="button"
-            onClick={() => void publish()}
-            className="rounded-full bg-stone-900 px-4 py-2 text-sm text-white"
-          >
-            Publish share page
-          </button>
         </div>
         {shareUrl ? (
-          <p className="mt-4 text-sm">
-            Share link:{" "}
-            <Link href={shareUrl} className="underline">
-              {shareUrl}
-            </Link>
+          <p className="kudos-card kudos-share">
+            <Link href={shareUrl}>{shareUrl}</Link>
           </p>
         ) : null}
       </main>
-      <SiteFooter />
-    </div>
+    </SiteShell>
   );
 }

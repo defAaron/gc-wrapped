@@ -1,0 +1,699 @@
+.kudos-app {
+  position: relative;
+  display: flex;
+  min-height: 100svh;
+  flex-direction: column;
+  overflow: hidden;
+  color: #211d2b;
+  font-family: var(--font-dm), "DM Sans", sans-serif;
+  background:
+    radial-gradient(circle at 50% 12%, rgba(255, 255, 255, 0.96) 0 16%, transparent 48%),
+    linear-gradient(135deg, #fff7ec 0%, #f8f6ff 43%, #f1f8ff 100%);
+  isolation: isolate;
+}
+
+.kudos-app::before {
+  position: absolute;
+  inset: 0;
+  z-index: -2;
+  background-image: radial-gradient(rgba(101, 78, 160, 0.16) 0.75px, transparent 0.75px);
+  background-size: 20px 20px;
+  mask-image: linear-gradient(to bottom, black, transparent 78%);
+  content: "";
+  pointer-events: none;
+}
+
+.kudos-app .ambient {
+  position: absolute;
+  z-index: -1;
+  width: 34vw;
+  height: 34vw;
+  border-radius: 999px;
+  filter: blur(80px);
+  opacity: 0.35;
+  pointer-events: none;
+  animation: kudos-breathe 8s ease-in-out infinite alternate;
+}
+
+.kudos-app .ambient-left {
+  top: -15vw;
+  left: -10vw;
+  background: #ffd65a;
+}
+
+.kudos-app .ambient-right {
+  right: -12vw;
+  bottom: -18vw;
+  background: #aa8cff;
+  animation-delay: -4s;
+}
+
+.kudos-app a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.kudos-app button,
+.kudos-app input,
+.kudos-app textarea {
+  font-family: inherit;
+}
+
+.kudos-nav {
+  position: relative;
+  z-index: 20;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  width: min(1080px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 22px 0;
+}
+
+.kudos-brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--font-manrope), Manrope, sans-serif;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.kudos-brand-mark {
+  display: grid;
+  width: 35px;
+  height: 35px;
+  place-items: center;
+  border-radius: 12px;
+  color: white;
+  background: #7952df;
+  box-shadow: 0 6px 16px rgba(121, 82, 223, 0.3);
+  transform: rotate(-5deg);
+}
+
+.kudos-brand-mark span {
+  transform: rotate(5deg);
+}
+
+.kudos-nav-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 40px;
+  padding: 0 16px;
+  border: 1px solid rgba(41, 35, 54, 0.12);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.72);
+  font-size: 14px;
+  font-weight: 700;
+  transition: transform 180ms ease, background 180ms ease;
+}
+
+.kudos-nav-link:hover {
+  background: white;
+  transform: translateY(-2px);
+}
+
+.kudos-main {
+  position: relative;
+  z-index: 10;
+  width: min(720px, calc(100% - 48px));
+  margin: 0 auto;
+  padding: 18px 0 72px;
+}
+
+.kudos-main-wide {
+  width: min(1080px, calc(100% - 48px));
+}
+
+.kudos-title {
+  margin: 0;
+  font-family: var(--font-manrope), Manrope, sans-serif;
+  font-size: clamp(40px, 5.4vw, 64px);
+  font-weight: 800;
+  letter-spacing: -0.065em;
+  line-height: 0.95;
+  text-wrap: balance;
+}
+
+.kudos-lede {
+  max-width: 38rem;
+  margin: 14px 0 0;
+  color: #6f6979;
+  font-size: 17px;
+  line-height: 1.65;
+}
+
+.kudos-card {
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  border-radius: 24px;
+  background: rgba(255, 255, 255, 0.74);
+  box-shadow:
+    0 16px 40px rgba(74, 55, 118, 0.08),
+    inset 0 0 0 1px rgba(81, 58, 138, 0.04);
+  backdrop-filter: blur(10px);
+}
+
+.kudos-label {
+  display: block;
+  color: #8a8492;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.kudos-field {
+  width: 100%;
+  margin-top: 8px;
+  padding: 12px 14px;
+  border: 1px solid rgba(41, 35, 54, 0.1);
+  border-radius: 16px;
+  color: inherit;
+  background: rgba(255, 255, 255, 0.88);
+  font-size: 15px;
+  outline: none;
+}
+
+.kudos-field:focus {
+  border-color: #c4b2f5;
+  box-shadow: 0 0 0 4px rgba(121, 82, 223, 0.14);
+}
+
+.kudos-stack {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  margin-top: 28px;
+}
+
+.kudos-stack .kudos-stack {
+  margin-top: 0;
+}
+
+.kudos-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  min-height: 46px;
+  padding: 0 20px;
+  border-radius: 999px;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: transform 180ms ease, box-shadow 180ms ease, background 180ms ease;
+}
+
+.kudos-btn:disabled {
+  opacity: 0.5;
+  transform: none;
+  cursor: not-allowed;
+}
+
+.kudos-btn-primary {
+  border: 0;
+  color: white;
+  background: #211d2b;
+  box-shadow: 0 12px 25px rgba(33, 29, 43, 0.18);
+}
+
+.kudos-btn-primary:hover:not(:disabled) {
+  box-shadow: 0 16px 30px rgba(33, 29, 43, 0.24);
+  transform: translateY(-2px);
+}
+
+.kudos-btn-secondary {
+  border: 1px solid rgba(41, 35, 54, 0.12);
+  color: #211d2b;
+  background: rgba(255, 255, 255, 0.78);
+}
+
+.kudos-btn-secondary:hover:not(:disabled) {
+  background: white;
+  transform: translateY(-2px);
+}
+
+.kudos-actions {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin-top: 28px;
+}
+
+.kudos-note,
+.kudos-error,
+.kudos-warn {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.kudos-spaced {
+  margin-top: 14px;
+}
+
+.kudos-drop .kudos-note {
+  margin-top: 6px;
+}
+
+.kudos-note {
+  color: #6f6979;
+}
+
+.kudos-error {
+  color: #9f2d2d;
+}
+
+.kudos-warn {
+  color: #8a5a12;
+}
+
+.kudos-check {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  color: #3d3748;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.kudos-check input {
+  width: 16px;
+  height: 16px;
+  margin-top: 2px;
+  accent-color: #7952df;
+  flex: none;
+}
+
+.kudos-drop {
+  display: flex;
+  min-height: 240px;
+  margin-top: 28px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 36px 24px;
+  border: 1.5px dashed rgba(121, 82, 223, 0.35);
+  border-radius: 28px;
+  background: rgba(255, 255, 255, 0.62);
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.7);
+  text-align: center;
+  cursor: pointer;
+  transition: transform 180ms ease, border-color 180ms ease, background 180ms ease;
+}
+
+.kudos-drop:hover,
+.kudos-drop.is-dragging {
+  border-color: #7952df;
+  background: rgba(233, 224, 255, 0.55);
+  transform: translateY(-2px);
+}
+
+.kudos-drop.is-busy {
+  opacity: 0.7;
+  transform: none;
+  cursor: wait;
+}
+
+.kudos-drop-title {
+  margin: 0;
+  font-family: var(--font-manrope), Manrope, sans-serif;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.kudos-drop-mark {
+  display: grid;
+  width: 52px;
+  height: 52px;
+  margin-bottom: 14px;
+  place-items: center;
+  border-radius: 18px;
+  color: #7650dc;
+  background: #e9e0ff;
+  font-size: 22px;
+  transform: rotate(-6deg);
+}
+
+.kudos-choice-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 10px;
+  margin-top: 8px;
+}
+
+.kudos-fit {
+  width: fit-content;
+}
+
+.kudos-textarea {
+  min-height: 110px;
+  resize: vertical;
+}
+
+.kudos-choice {
+  padding: 12px 14px;
+  border: 1px solid rgba(41, 35, 54, 0.08);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.55);
+  text-align: left;
+  cursor: pointer;
+  transition: transform 180ms ease, background 180ms ease, box-shadow 180ms ease;
+}
+
+.kudos-choice:hover {
+  background: white;
+  transform: translateY(-2px);
+}
+
+.kudos-choice.is-selected {
+  border-color: transparent;
+  color: #5c3ec4;
+  background: #e9e0ff;
+  box-shadow: inset 0 -3px 0 rgba(104, 67, 201, 0.1);
+}
+
+.kudos-choice-label {
+  display: block;
+  font-size: 14px;
+  font-weight: 700;
+}
+
+.kudos-choice-hint {
+  display: block;
+  margin-top: 2px;
+  color: #6f6979;
+  font-size: 12px;
+}
+
+.kudos-choice.is-selected .kudos-choice-hint {
+  color: #7650dc;
+}
+
+.kudos-member {
+  padding: 16px;
+}
+
+.kudos-member-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.kudos-member-row .kudos-field {
+  min-width: 0;
+  flex: 1;
+  margin-top: 0;
+}
+
+.kudos-member > .kudos-check {
+  margin-top: 12px;
+}
+
+.kudos-member > .kudos-check + .kudos-check {
+  margin-top: 8px;
+}
+
+.kudos-avatar {
+  display: grid;
+  width: 42px;
+  height: 42px;
+  flex: none;
+  place-items: center;
+  border-radius: 14px;
+  color: white;
+  background: #7952df;
+  box-shadow: 0 6px 16px rgba(121, 82, 223, 0.28);
+  font-size: 13px;
+  font-weight: 800;
+  transform: rotate(-5deg);
+}
+
+.kudos-avatar span {
+  transform: rotate(5deg);
+}
+
+.kudos-meta {
+  flex: none;
+  color: #8a8492;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.kudos-inline {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 14px;
+  margin-top: 12px;
+}
+
+.kudos-text-link {
+  border: 0;
+  padding: 0;
+  color: #7650dc;
+  background: none;
+  font-size: 14px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+.kudos-text-link:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.kudos-platform {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  padding: 18px 18px 18px 16px;
+  transition: transform 180ms ease, background 180ms ease;
+}
+
+.kudos-platform:hover {
+  background: white;
+  transform: translateY(-3px);
+}
+
+.kudos-platform-copy {
+  min-width: 0;
+  flex: 1;
+}
+
+.kudos-platform-title {
+  display: block;
+  font-family: var(--font-manrope), Manrope, sans-serif;
+  font-size: 20px;
+  font-weight: 800;
+  letter-spacing: -0.04em;
+}
+
+.kudos-platform p {
+  margin: 4px 0 0;
+  color: #6f6979;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.kudos-platform-arrow {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  flex: none;
+  place-items: center;
+  border-radius: 50%;
+  color: #211d2b;
+  background: #f6ce59;
+  font-size: 16px;
+}
+
+.kudos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin: 28px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.kudos-award {
+  padding: 18px 18px 16px;
+}
+
+.kudos-kicker {
+  margin: 0;
+  color: #7650dc;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+.kudos-award-name {
+  margin: 8px 0 0;
+  font-family: var(--font-manrope), Manrope, sans-serif;
+  font-size: 26px;
+  font-weight: 800;
+  letter-spacing: -0.05em;
+  line-height: 1;
+}
+
+.kudos-award p {
+  margin: 10px 0 0;
+  color: #6f6979;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.kudos-award .kudos-line {
+  color: #211d2b;
+  font-size: 15px;
+}
+
+.kudos-quote {
+  color: #5c3ec4 !important;
+  font-style: italic;
+}
+
+.kudos-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 14px;
+  margin-top: 28px;
+}
+
+.kudos-copy h1 {
+  margin-bottom: 8px;
+}
+
+.kudos-copy p,
+.kudos-copy li {
+  color: #6f6979;
+  font-size: 16px;
+  line-height: 1.7;
+}
+
+.kudos-copy strong {
+  color: #211d2b;
+  font-weight: 700;
+}
+
+.kudos-copy p {
+  margin: 14px 0 0;
+}
+
+.kudos-copy ol {
+  margin: 16px 0 0;
+  padding-left: 1.2rem;
+}
+
+.kudos-copy li + li {
+  margin-top: 8px;
+}
+
+.kudos-copy a {
+  color: #7650dc;
+  font-weight: 700;
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.kudos-copy code,
+.kudos-inline-code {
+  padding: 0.08em 0.4em;
+  border-radius: 7px;
+  color: #5c3ec4;
+  background: #e9e0ff;
+  font-size: 0.92em;
+}
+
+.kudos-video {
+  width: 100%;
+  max-width: 360px;
+  aspect-ratio: 9 / 16;
+  border-radius: 28px;
+  background: #211d2b;
+  box-shadow: 0 18px 40px rgba(74, 55, 118, 0.18);
+}
+
+.kudos-share {
+  display: inline-block;
+  margin-top: 16px;
+  padding: 12px 16px;
+  color: #5c3ec4;
+  font-size: 14px;
+  font-weight: 700;
+  word-break: break-all;
+}
+
+.kudos-footer {
+  position: relative;
+  z-index: 10;
+  margin-top: auto;
+  padding: 8px 24px 28px;
+  color: #8a8492;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.kudos-footer p {
+  margin: 0 0 10px;
+}
+
+.kudos-footer nav {
+  display: flex;
+  justify-content: center;
+  gap: 18px;
+}
+
+.kudos-footer a:hover {
+  color: #5c3ec4;
+}
+
+@media (min-width: 768px) {
+  .kudos-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1100px) {
+  .kudos-grid-3 {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 640px) {
+  .kudos-nav,
+  .kudos-main,
+  .kudos-main-wide {
+    width: min(100% - 32px, 1080px);
+  }
+
+  .kudos-choice-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .kudos-nav-link {
+    padding: 0 12px;
+    font-size: 13px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .kudos-app,
+  .kudos-app::before,
+  .kudos-app * {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

@@ -3,8 +3,7 @@
 import { useParams, useRouter } from "next/navigation";
 import { useCallback, useEffect, useState } from "react";
 import { CeremonyPlayer } from "@/components/ceremony-player";
-import { SiteHeader } from "@/components/site-header";
-import { SiteFooter } from "@/components/site-footer";
+import { SiteShell } from "@/components/site-shell";
 import {
   getCeremonyStatus,
   getSession,
@@ -72,44 +71,38 @@ export default function CeremonyPage() {
   const fallbackUsed = status?.fallbackUsed ?? ceremonyState?.fallbackUsed ?? false;
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <SiteHeader />
-      <main className="mx-auto flex w-full max-w-xl flex-1 flex-col px-6 py-10">
-        <h1 className="text-2xl font-semibold">{session?.groupTitle ?? "Your ceremony"}</h1>
+    <SiteShell>
+      <main className="kudos-main">
+        <h1 className="kudos-title">{session?.groupTitle ?? "Your ceremony"}</h1>
         {rendering ? (
-          <p className="mt-3 text-stone-600">
-            Rolling the red carpet… <span className="text-stone-800">{formatCeremonyStage(status?.stage ?? null)}</span>
+          <p className="kudos-lede">
+            Rolling the red carpet… {formatCeremonyStage(status?.stage ?? null)}
             {typeof status?.progress === "number" ? ` (${Math.round(status.progress * 100)}%)` : null}
           </p>
         ) : null}
-        {error ? <p className="mt-2 text-sm text-red-700">{error}</p> : null}
+        {error ? <p className="kudos-error kudos-spaced">{error}</p> : null}
         {complete ? (
-          <div className="mt-6 space-y-4">
+          <div className="kudos-stack">
             <CeremonyPlayer
               src={videoSrc}
               {...(fallbackUsed ? { fallbackUsed: true } : {})}
               downloadFileName="kudos-ceremony.mp4"
             />
-            <button
-              type="button"
-              onClick={() => void copyShareLink()}
-              className="rounded-full bg-stone-900 px-4 py-2 text-sm text-white"
-            >
+            <button type="button" onClick={() => void copyShareLink()} className="kudos-btn kudos-btn-primary kudos-fit">
               Copy link
             </button>
-            {copyHint ? <p className="text-sm text-stone-600">{copyHint}</p> : null}
+            {copyHint ? <p className="kudos-note">{copyHint}</p> : null}
           </div>
         ) : null}
         {!complete && !rendering && !error && session ? (
-          <p className="mt-4 text-sm text-stone-600">
+          <p className="kudos-lede">
             No ceremony in progress.{" "}
-            <button type="button" className="underline" onClick={() => router.push(`/session/${id}/preview`)}>
+            <button type="button" className="kudos-text-link" onClick={() => router.push(`/session/${id}/preview`)}>
               Back to preview
             </button>
           </p>
         ) : null}
       </main>
-      <SiteFooter />
-    </div>
+    </SiteShell>
   );
 }

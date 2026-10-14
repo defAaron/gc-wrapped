@@ -2,11 +2,14 @@ import Link from "next/link";
 
 export function SiteHeader() {
   return (
-    <header className="mx-auto flex w-full max-w-5xl items-center justify-between px-6 py-4">
-      <Link href="/" className="text-sm font-semibold tracking-wide text-stone-700">
-        Kudos AI
+    <header className="kudos-nav">
+      <Link className="kudos-brand" href="/" aria-label="Kudos AI home">
+        <span className="kudos-brand-mark">
+          <span>✦</span>
+        </span>
+        <span>Kudos AI</span>
       </Link>
-      <Link href="/export" className="text-sm text-stone-600 underline-offset-4 hover:underline">
+      <Link className="kudos-nav-link" href="/export">
         How do I get JSON?
       </Link>
     </header>

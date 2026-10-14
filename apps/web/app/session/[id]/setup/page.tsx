@@ -4,7 +4,7 @@ import { useParams, useRouter } from "next/navigation";
 import { useEffect, useMemo, useState } from "react";
 import type { RoastLevel } from "@kudos/shared";
 import { RoastDial } from "@/components/roast-dial";
-import { SiteHeader } from "@/components/site-header";
+import { SiteShell } from "@/components/site-shell";
 import { getSession, patchSession, uploadMemberAvatar, type SessionMember } from "@/lib/api";
 
 function initials(name: string): string {
@@ -55,24 +55,27 @@ export default function SetupPage() {
   }
 
   return (
-    <div className="min-h-screen">
-      <SiteHeader />
-      <main className="mx-auto max-w-2xl px-6 py-10">
-        <h1 className="text-2xl font-semibold">Map your group</h1>
-        <div className="mt-6 space-y-6">
-          <label className="block">
-            <span className="text-sm font-medium">Group title</span>
+    <SiteShell>
+      <main className="kudos-main">
+        <h1 className="kudos-title">Map your group</h1>
+        <p className="kudos-lede">Name the chat, set the roast, and decide who gets a kudos.</p>
+        <div className="kudos-stack">
+          <label>
+            <span className="kudos-label">Group title</span>
             <input
               value={groupTitle}
               onChange={(event) => setGroupTitle(event.target.value)}
-              className="mt-1 w-full rounded-xl border border-stone-200 px-3 py-2"
+              className="kudos-field"
             />
           </label>
           <RoastDial value={roastLevel} onChange={setRoastLevel} />
-          <ul className="space-y-3">
+          <ul className="kudos-list">
             {members.map((member) => (
-              <li key={member.id} className="rounded-xl border border-stone-200 p-3">
-                <div className="flex items-center justify-between gap-3">
+              <li key={member.id} className="kudos-card kudos-member">
+                <div className="kudos-member-row">
+                  <span className="kudos-avatar" aria-hidden="true">
+                    <span>{initials(member.displayName)}</span>
+                  </span>
                   <input
                     value={member.displayName}
                     onChange={(event) =>
@@ -82,20 +85,18 @@ export default function SetupPage() {
                         ),
                       )
                     }
-                    className="flex-1 rounded-lg border border-stone-200 px-2 py-1"
+                    className="kudos-field"
+                    aria-label={`Display name for ${member.displayName}`}
                   />
-                  <span className="text-xs text-stone-500">{member.messageCount} msgs</span>
+                  <span className="kudos-meta">{member.messageCount} msgs</span>
                 </div>
-                <div className="mt-2 flex items-center gap-3 text-sm">
-                  <span className="flex h-10 w-10 items-center justify-center rounded-full bg-stone-200 text-xs font-semibold text-stone-700">
-                    {initials(member.displayName)}
-                  </span>
-                  <label className="cursor-pointer text-stone-600 underline">
+                <div className="kudos-inline">
+                  <label className="kudos-text-link">
                     {member.hasAvatar ? "Photo added" : "Add photo"}
                     <input
                       type="file"
                       accept="image/png,image/jpeg"
-                      className="hidden"
+                      className="sr-only"
                       onChange={(event) => {
                         const file = event.target.files?.[0];
                         if (!file) return;
@@ -113,7 +114,7 @@ export default function SetupPage() {
                     />
                   </label>
                 </div>
-                <label className="mt-2 flex items-center gap-2 text-sm">
+                <label className="kudos-check">
                   <input
                     type="checkbox"
                     checked={member.excluded}
@@ -127,7 +128,7 @@ export default function SetupPage() {
                   />
                   Remove from awards
                 </label>
-                <label className="mt-2 flex items-center gap-2 text-sm">
+                <label className="kudos-check">
                   <input
                     type="checkbox"
                     checked={mergePick.includes(member.id)}
@@ -144,7 +145,7 @@ export default function SetupPage() {
               </li>
             ))}
           </ul>
-          <label className="flex items-start gap-2 text-sm text-stone-700">
+          <label className="kudos-check">
             <input type="checkbox" checked={consent} onChange={(event) => setConsent(event.target.checked)} />
             <span>
               I am 16 or older. I confirm I have permission to upload this chat and share awards about these people, or
@@ -152,21 +153,19 @@ export default function SetupPage() {
               (Jev) and a video provider (Magic Hour).
             </span>
           </label>
-          <p className="text-xs text-stone-500">
-            Quotes stay off the public link unless you turn them on from the awards page.
-          </p>
+          <p className="kudos-note">Quotes stay off the public link unless you turn them on from the awards page.</p>
           <button
             type="button"
             disabled={!consent || activeCount < 2}
             onClick={() => void saveAndContinue()}
-            className="rounded-full bg-stone-900 px-5 py-3 text-sm font-medium text-white disabled:opacity-50"
+            className="kudos-btn kudos-btn-primary kudos-fit"
           >
             Continue to awards
           </button>
-          {activeCount < 2 ? <p className="text-sm text-amber-700">Keep at least two members in the awards.</p> : null}
-          {error ? <p className="text-sm text-red-700">{error}</p> : null}
+          {activeCount < 2 ? <p className="kudos-warn">Keep at least two members in the awards.</p> : null}
+          {error ? <p className="kudos-error">{error}</p> : null}
         </div>
       </main>
-    </div>
+    </SiteShell>
   );
 }

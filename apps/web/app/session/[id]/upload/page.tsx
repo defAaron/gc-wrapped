@@ -2,7 +2,7 @@
 
 import { useParams, useRouter } from "next/navigation";
 import { useRef, useState } from "react";
-import { SiteHeader } from "@/components/site-header";
+import { SiteShell } from "@/components/site-shell";
 import { uploadJson } from "@/lib/api";
 
 function isJsonFile(file: File) {
@@ -61,11 +61,12 @@ export default function UploadPage() {
   }
 
   return (
-    <div className="min-h-screen">
-      <SiteHeader />
-      <main className="mx-auto max-w-xl px-6 py-10">
-        <h1 className="text-2xl font-semibold">Upload your chat JSON</h1>
-        <p className="mt-2 text-stone-600">One `.json` file. We delete the raw file after analysis.</p>
+    <SiteShell>
+      <main className="kudos-main">
+        <h1 className="kudos-title">Upload your chat JSON</h1>
+        <p className="kudos-lede">
+          One <span className="kudos-inline-code">.json</span> file. We delete the raw file after analysis.
+        </p>
         <div
           role="button"
           tabIndex={uploading ? -1 : 0}
@@ -84,20 +85,15 @@ export default function UploadPage() {
           onDragOver={onDragOver}
           onDragLeave={onDragLeave}
           onDrop={onDrop}
-          className={`mt-6 flex cursor-pointer flex-col items-center justify-center rounded-2xl border-2 border-dashed px-6 py-14 text-center transition-colors ${
-            uploading
-              ? "cursor-not-allowed border-stone-200 bg-stone-50 opacity-70"
-              : dragging
-                ? "border-stone-900 bg-stone-100"
-                : "border-stone-300 bg-white hover:border-stone-400 hover:bg-stone-50"
-          }`}
+          className={`kudos-drop ${uploading ? "is-busy" : ""} ${dragging ? "is-dragging" : ""}`}
         >
-          <p className="text-sm font-medium text-stone-800">
+          <span className="kudos-drop-mark" aria-hidden="true">
+            ✦
+          </span>
+          <p className="kudos-drop-title">
             {uploading ? "Uploading…" : dragging ? "Drop your file here" : "Drag and drop your JSON here"}
           </p>
-          <p className="mt-1 text-sm text-stone-500">
-            {uploading ? "Please wait" : "or click to choose a file"}
-          </p>
+          <p className="kudos-note">{uploading ? "Please wait" : "or click to choose a file"}</p>
         </div>
         <input
           ref={inputRef}
@@ -111,9 +107,9 @@ export default function UploadPage() {
             event.target.value = "";
           }}
         />
-        {warning ? <p className="mt-3 text-sm text-amber-700">{warning}</p> : null}
-        {error ? <p className="mt-3 text-sm text-red-700">{error}</p> : null}
+        {warning ? <p className="kudos-warn kudos-spaced">{warning}</p> : null}
+        {error ? <p className="kudos-error kudos-spaced">{error}</p> : null}
       </main>
-    </div>
+    </SiteShell>
   );
 }

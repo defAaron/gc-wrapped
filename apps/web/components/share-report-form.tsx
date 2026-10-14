@@ -21,23 +21,22 @@ export function ShareReportForm({ slug }: { slug: string }) {
   }
 
   return (
-    <div className="mt-10 space-y-2">
-      <label className="block text-sm font-medium">Report this page</label>
+    <div className="kudos-stack">
+      <label className="kudos-label" htmlFor="report-reason">
+        Report this page
+      </label>
       <textarea
+        id="report-reason"
         value={reason}
         onChange={(event) => setReason(event.target.value)}
         maxLength={500}
-        className="w-full rounded-xl border border-stone-200 p-3 text-sm"
+        className="kudos-field kudos-textarea"
         placeholder="Tell us what feels off (max 500 characters)"
       />
-      <button
-        type="button"
-        onClick={() => void submit()}
-        className="rounded-full border border-stone-300 px-4 py-2 text-sm"
-      >
+      <button type="button" onClick={() => void submit()} className="kudos-btn kudos-btn-secondary kudos-fit">
         Submit report
       </button>
-      {message ? <p className="text-sm text-stone-600">{message}</p> : null}
+      {message ? <p className="kudos-note">{message}</p> : null}
     </div>
   );
 }

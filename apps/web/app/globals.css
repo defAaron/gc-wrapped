@@ -4,6 +4,7 @@
 
 body {
   margin: 0;
-  background: #faf7f2;
-  color: #1c1917;
+  background: #f8f6ff;
+  color: #211d2b;
+  font-family: var(--font-dm), "DM Sans", sans-serif;
 }
